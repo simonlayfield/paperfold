@@ -1,0 +1,32 @@
+<div class="page">
+  {#await homepageData}
+    Loading...
+    {:then userData}
+      {userData.username}
+    {:catch theError}
+      <p>whoops! {theError.message}</p>
+  {/await}
+</div>
+
+<style>
+  .page {
+    /* background: #66b5c5; */
+  }
+</style>
+
+<script>
+  export default {
+    data() {
+      return {
+        dataUrl: "http://localhost:3000/js/userData.json"
+      }
+    },
+    computed: {
+      homepageData: appData => {
+        return fetch(appData.dataUrl)
+          .then(res => res.json())
+          .then(data => data.userData);
+      }
+    }
+  }
+</script>

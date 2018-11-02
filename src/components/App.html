@@ -1,0 +1,17 @@
+<svelte:component this="{currentPage}" />
+
+<script>
+  import Homepage from './Homepage.html';
+  export default {
+    data() {
+      return {
+        page: webpage
+      }
+    },
+    computed: {
+      currentPage: page => {
+				return Homepage;
+			}
+    }
+  };
+</script>
