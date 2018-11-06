@@ -2,6 +2,8 @@
 
 <script>
   import Homepage from './Homepage.html';
+  import Story from './Story.html';
+  import Illustration from './Illustration.html';
   export default {
     data() {
       return {
@@ -9,7 +11,9 @@
       }
     },
     computed: {
-      currentPage: page => {
+      currentPage: data => {
+        if (data.page === 'story') return Story;
+        if (data.page === 'illustration') return Illustration;
 				return Homepage;
 			}
     }

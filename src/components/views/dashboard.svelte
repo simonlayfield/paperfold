@@ -5,11 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Paperfold POC</title>
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: #66b5c5;
+      background: #fff;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .app {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    img {
+      max-width: 100%;
     }
   </style>
 </head>
@@ -17,7 +26,7 @@
 
   <div class="app"></div>
   <script>
-    const webpage = 'homepage';
+    var appData = results[0];
   </script>
   <script src="js/bundle.js"></script>
 

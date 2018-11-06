@@ -1,16 +1,64 @@
 <div class="page">
-  {#await homepageData}
+  {#await userData}
     Loading...
     {:then userData}
-      {userData.username}
+      <div class="username">Username: {userData.username}</div>
     {:catch theError}
       <p>whoops! {theError.message}</p>
   {/await}
+
+  <h3>Stories</h3>
+
+  {#await userData}
+    Loading...
+    {:then}
+
+
+
+    {#await documentsData}
+      Loading...
+      {:then documentsData}
+        <div class="panel-collection">
+          {#each Object.entries(documentsData) as [object, document]}
+            <div class="panel">
+              <div class="cover"><a href="/story"><img src="images/covers/Cover-{document.title.replace(/ /g, '-')}.jpg" alt=""></a></div>
+              <div class="title"><a href="/story">{document.title}</a></div>
+            </div>
+          {/each}
+        </div>
+      {:catch theError}
+        <p>whoops! {theError.message}</p>
+    {/await}
+
+
+
+    {:catch theError}
+      <p>whoops! {theError.message}</p>
+  {/await}
+
 </div>
 
 <style>
-  .page {
-    /* background: #66b5c5; */
+  .username {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  .panel-collection {
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .panel {
+    padding: 2rem;
+    border: 1px solid #66b5c5;
+  }
+  .title {
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  .title a {
+    color: #666;
   }
 </style>
 
@@ -18,14 +66,20 @@
   export default {
     data() {
       return {
-        dataUrl: "http://localhost:3000/js/userData.json"
+        userDataUrl: "/userData?" + currentUser,
+        documentsDataUrl: "/dashboardData?" + userData.contribution
       }
     },
     computed: {
-      homepageData: appData => {
-        return fetch(appData.dataUrl)
+      userData: data => {
+        return fetch(data.userDataUrl)
           .then(res => res.json())
-          .then(data => data.userData);
+          .then(data => data);
+      },
+      documentsData: data => {
+        return fetch(data.documentsDataUrl)
+          .then(res => res.json())
+          .then(data => data);
       }
     }
   }

@@ -1,0 +1,34 @@
+{
+  "documentsData": {
+
+    "summer": {
+      "title": "The Curious Catfish",
+      "chapters": {
+        "chapter1": {
+          "title": "The Beginning",
+          "caption": "Once upon a time...",
+          "image": "url..."
+        }
+      }
+    },
+    "spring": {
+      "title": "The Rain in Wentington",
+      "chapters": {
+        "chapter1": {
+          "title": "The Beginning",
+          "caption": "Once upon a time..."
+        }
+      }
+    },
+    "winter": {
+      "title": "Will Be Boys",
+      "chapters": {
+        "chapter1": {
+          "title": "The Beginning",
+          "caption": "Once upon a time..."
+        }
+      }
+    }
+
+  }
+}
