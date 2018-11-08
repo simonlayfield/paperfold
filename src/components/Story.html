@@ -1,11 +1,17 @@
 <div class="container -split">
   <div class="edit">
     <h1>Title</h1>
-    <div class="story" id="storyEdit" contenteditable>{story}</div>
+    <!-- {#await storyData}
+      Loading...
+    {:then story}
+      {story.progress}
+      <p>{story.text}</p>
+    {/await} -->
+    <div class="story" id="storyEdit" contenteditable></div>
     <form hidden action="/storySubmission" method="POST" id="storyContent">
-      <textarea rows="4" cols="50" name="content" value="{story}"></textarea>
+      <textarea rows="4" cols="50" name="content" value="{storyText}"></textarea>
     </form>
-    <button type="submit" on:click="submit()">Save</button>
+    <!-- <button type="submit" on:click="submit()">Save</button> -->
   </div>
   <div class="illustration">
     <img src="" alt="">
@@ -49,7 +55,15 @@
   export default {
     data() {
       return {
-        "story": "It was raining heavily..."
+        storyText: "It was raining heavily...",
+        storyUrl: "/storyData?id="
+      }
+    },
+    computed: {
+      storyData: data => {
+        return fetch(data.storyUrl)
+          .then(res => res.json())
+          .then(data => data);
       }
     },
     methods: {

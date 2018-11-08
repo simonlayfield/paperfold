@@ -1,40 +1,39 @@
 <div class="page">
-  {#await userData}
-    Loading...
-    {:then userData}
-      <div class="username">Username: {userData.username}</div>
-    {:catch theError}
-      <p>whoops! {theError.message}</p>
-  {/await}
+
+  <div class="user-info">
+    {#await userData}
+      <div>Loading...</div>
+      {:then userData}
+        <div class="username">Username: {userData.username}</div>
+        <div class="add">
+          <form action="/addStory?user=simon" method="POST">
+            <input type="text" name="title" />
+            <button type="submit">Add Story</button>
+          </form>
+        </div>
+      {:catch theError}
+        <p>whoops! {theError.message}</p>
+    {/await}
+  </div>
 
   <h3>Stories</h3>
 
-  {#await userData}
-    Loading...
-    {:then}
-
-
-
+  <div class="story-data">
     {#await documentsData}
       Loading...
       {:then documentsData}
         <div class="panel-collection">
           {#each Object.entries(documentsData) as [object, document]}
             <div class="panel">
-              <div class="cover"><a href="/story"><img src="images/covers/Cover-{document.title.replace(/ /g, '-')}.jpg" alt=""></a></div>
-              <div class="title"><a href="/story">{document.title}</a></div>
+              <div class="cover"><a href="/story?id={document.id}"><img src="images/covers/Cover-{document.title.replace(/ /g, '-')}.jpg" alt=""></a></div>
+              <div class="title"><a href="/story?id={document.id}">{document.title}</a></div>
             </div>
           {/each}
         </div>
       {:catch theError}
         <p>whoops! {theError.message}</p>
     {/await}
-
-
-
-    {:catch theError}
-      <p>whoops! {theError.message}</p>
-  {/await}
+  </div>
 
 </div>
 
@@ -42,6 +41,9 @@
   .username {
     margin-top: 2rem;
     margin-bottom: 2rem;
+  }
+  .add {
+    margin: 2rem 0;
   }
   .panel-collection {
     display: grid;
@@ -66,8 +68,8 @@
   export default {
     data() {
       return {
-        userDataUrl: "/userData?" + currentUser,
-        documentsDataUrl: "/dashboardData?" + userData.contribution
+        userDataUrl: "/userData?user=simon",
+        documentsDataUrl: "/dashboardData?user=simon"
       }
     },
     computed: {

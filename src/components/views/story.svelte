@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Paperfold POC</title>
+  <title>Story</title>
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
   <style>
     html, body {
@@ -24,7 +24,7 @@
 </head>
 <body>
 
-  <div class="app"></div>
+  <div class="story"></div>
   <script src="/js/bundle.js"></script>
 
 </body>
