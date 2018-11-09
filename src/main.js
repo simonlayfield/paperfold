@@ -1,19 +1,15 @@
 import Dashboard from './components/Dashboard.html';
 import Story from './components/Story.html';
-import { Store } from 'svelte/store.js';
-
-const store = new Store({
-	name: 'world'
-});
+// import { Store } from 'svelte/store.js';
+//
+// const store = new Store({
+// 	name: 'world'
+// });
 
 const DashboardComponent = new Dashboard({
-	target: document.querySelector('.app'),
-	store
+	target: document.querySelector('.app')
 });
 
 const StoryComponent = new Story({
-	target: document.querySelector('.story'),
-	store
+	target: document.querySelector('.story')
 });
-
-window.store = store; // useful for debugging!
