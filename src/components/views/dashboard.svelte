@@ -2,6 +2,9 @@
   <title>Story</title>
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     html, body {
       margin: 0;
       padding: 0;
@@ -21,6 +24,7 @@
 
 <header class="app-header">
   <div class="message">Logged in as {$currentUserData.username}</div>
+  <div><a href="/illustration">Submit an illustration</a></div>
 </header>
 
 <div class="page">
@@ -30,7 +34,7 @@
       <label for="title">Story Title</label>
       <input type="text" name="title" class="textinput" />
       {#if $formIsInvalid}
-      Form is invalid
+        <div class="validation">^ Add a title</div>
       {/if}
       <button type="submit">Add Story</button>
     </form>
@@ -54,9 +58,13 @@
 <style>
   .app-header {
     background: #66b5c5;
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     padding: 1rem;
+    color: #fff;
+  }
+  .app-header a {
     color: #fff;
   }
   .page {
@@ -90,6 +98,9 @@
   .form-story button:hover {
     background: #172E59;
     cursor: pointer;
+  }
+  .validation {
+    color: #C93F54;
   }
   .panel-collection {
     display: grid;

@@ -50,6 +50,7 @@ const { Store } = require('svelte/store.umd.js'),
       dashboardView = require('./src/components/views/dashboard.svelte'),
       storyView = require('./src/components/views/story.svelte'),
       illustrationSubmissionView = require('./src/components/views/illustration.svelte'),
+      completeView = require('./src/components/views/complete.svelte'),
       ObjectId = require('mongodb').ObjectId;
 
 let db;
@@ -101,7 +102,7 @@ app.post('/upload', (req, res) => {
 
     db.collection('chapters').insertOne(newChapterObj, (err, result) => {
       if (err) return console.log(err);
-      res.send('All done');
+      res.redirect('/complete');
     });
 
   });
@@ -126,8 +127,11 @@ app.post('/addChapterText', (req, res) => {
       currentStoryData
     );
 
-
-    res.redirect('/story?id=' + req.query.id);
+    if(currentStoryData.progress < 4) {
+      res.redirect('/story?id=' + req.query.id);
+    } else {
+      res.redirect('/');
+    }
     res.end();
 
   });
@@ -217,7 +221,6 @@ app.get(['/', '/index.html'], formHandler, homeCtrl);
 app.get(['/story', 'story.html'], (req, res) => {
   // We need to know which story needs to be displayed in the view
   // We get this from the req object
-
   const currentStoryId = new ObjectId(req.query.id);
 
   db.collection('stories').find({
@@ -235,6 +238,17 @@ app.get(['/story', 'story.html'], (req, res) => {
     res.write(head);
     res.write('<style>' + css.code + '</style>');
     res.write(html);
+    res.write(`
+      <script src="/js/CharacterCount.js"></script>
+      <script>
+        var CharacterLimit = new CharacterCount({
+          target: document.getElementById('character-count'),
+          data: {
+            remainingCharacters: 52
+          }
+        });
+      </script>
+    `)
     res.end();
   });
 
@@ -246,4 +260,15 @@ app.get(['/illustration', 'illustration.html'], (req, res) => {
   res.write(head);
   res.write('<style>' + css.code + '</style>');
   res.write(html);
+  res.end();
+});
+
+app.get('/complete', (req, res) => {
+  const { html, head, css } = completeView.render();
+  // And I guess this is how express returns the page?
+ res.set({ 'content-type': 'text/html; charset=utf-8' });
+  res.write(head);
+  res.write('<style>' + css.code + '</style>');
+  res.write(html);
+  res.end();
 });
