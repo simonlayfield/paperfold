@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
       path.extname(file.originalname));
   }
 });
-
+// https://www.youtube.com/watch?v=9Qzmri1WaaE
 const upload = multer({
   storage: storage,
   limits: {fileSize: 1000000},
@@ -59,8 +59,8 @@ MongoClient.connect('mongodb://paperfoldUser:ifj7hkWC@ds153763.mlab.com:53763/pa
 
   if (err) return console.log(err);
   db = client.db('paperfold');
-  app.listen(3000, () => {
-    console.log('listening on 3000');
+  app.listen(8080, () => {
+    console.log('listening on 8080');
   });
 
 });
@@ -92,99 +92,103 @@ app.post('/upload', (req, res) => {
 
   upload(req, res, (err) => {
     if(err) console.log(err);
-    console.log(req.file);
-    res.send('done');
+
+    const newChapterObj = {
+      "title": req.body.title,
+      "caption": req.body.caption,
+      "imageSrc": req.file.filename
+    };
+
+    db.collection('chapters').insertOne(newChapterObj, (err, result) => {
+      if (err) return console.log(err);
+      res.send('All done');
+    });
+
   });
 
 });
 
-// app.post('/upload', function(req, res) {
-//   req.pipe(req.busboy);
-//   req.busboy.on('file', function(fieldname, file, filename) {
-//       var fstream = fs.createWriteStream('./public/images/covers/' + filename);
-//       file.pipe(fstream);
-//       fstream.on('close', function () {
-//
-//         db.collection('chapters').insertOne(req.body, (err, result) => {
-//           if (err) return console.log(err);
-//           res.send('ok!');
-//         });
-//
-//       });
-//   });
-// });
+app.post('/addChapterText', (req, res) => {
 
-app.post('/addStory', (req, res) => {
-  let currentUser = req.query.user;
-  let newStoryId = 'default';
+  let currentStoryId = new ObjectId(req.query.id),
+      currentStoryData,
+      currentProgress = req.body.storyProgress;
 
-  let newStoryObj = Object.assign(req.body, {
-    "progress": "0",
-    "chapters": {
-      "chapter1": {
-        "title": "chapter title",
-          "caption": "chapter caption",
-          "illustration": "/image-source.jpg",
-          "text": ""
-      },
-      "chapter2": {
-        "title": "chapter title",
-          "caption": "chapter caption",
-          "illustration": "/image-source.jpg",
-          "text": ""
-      },
-      "chapter3": {
-        "title": "chapter title",
-          "caption": "chapter caption",
-          "illustration": "/image-source.jpg",
-          "text": ""
-      },
-      "chapter4": {
-        "title": "chapter title",
-          "caption": "chapter caption",
-          "illustration": "/image-source.jpg",
-          "text": ""
-      },
-      "chapter5": {
-        "title": "chapter title",
-          "caption": "chapter caption",
-          "illustration": "/image-source.jpg",
-          "text": ""
-      },
-      "chapter6": {
-        "title": "chapter title",
-          "caption": "chapter caption",
-          "illustration": "/image-source.jpg",
-          "text": ""
-      }
-    }
+  db.collection('stories').find({"_id": currentStoryId}).toArray(function(err, results) {
+    currentStoryData = results[0];
+
+    currentStoryData.progress = parseInt(req.body.storyProgress) + 1;
+    currentStoryData.chapters[currentProgress].text = req.body.storyField;
+
+    db.collection('stories').update({
+      "_id": currentStoryId
+    },
+      currentStoryData
+    );
+
+
+    res.redirect('/story?id=' + req.query.id);
+    res.end();
+
   });
 
-  db.collection('stories').insertOne(newStoryObj, (err, result) => {
-    if (err) return console.log(err);
-    newStoryId = result.insertedId;
-    console.log('saved to database');
-    db.collection('users').updateOne(
-        {
-          "username": currentUser
-        }, {
-          "$push": {
-            "contributions": {
-              "id": newStoryId,
-              "title": req.body.title
-            },
+});
+
+app.post('/addStory', formHandler, homeCtrl);
+
+function formHandler (req, res, next) {
+
+  if (req.body.title === "") {
+    req.params = {
+      formIsInvalid: true
+    };
+    return next();
+  } else {
+    req.params = {
+      formIsInvalid: false
+    };
+  }
+
+  let currentUser = req.query.user,
+      newStoryId = 'default',
+      newStoryChapters,
+      newStoryObj;
+
+  db.collection('chapters').aggregate([{ $sample: { size: 3 } }]).toArray(function(err, results) {
+    if(err) console.log(err);
+    newStoryChapters = results;
+    newStoryObj = Object.assign(req.body, {
+      "progress": "0",
+      "chapters": newStoryChapters
+    });
+
+    db.collection('stories').insertOne(newStoryObj, (err, result) => {
+      if (err) return console.log(err);
+      newStoryId = result.insertedId;
+      console.log('saved to database');
+      db.collection('users').updateOne(
+          {
+            "username": currentUser
+          }, {
+            "$push": {
+              "contributions": {
+                "id": newStoryId,
+                "title": req.body.title
+              },
+            }
+          },
+          function(err, result) {
+              return next();
           }
-        },
-        function(err, result) {
-          res.redirect("/");
-        }
-      );
+        );
+    });
+
   });
 
-});
 
-// Application Pages
-app.get(['/', '/index.html'], (req, res) => {
+}
+
+function homeCtrl (req, res) {
 
   db.collection('users').find({
     "username": "simon"
@@ -194,15 +198,21 @@ app.get(['/', '/index.html'], (req, res) => {
     // https://svelte.technology/guide#server-side-api
     const { html, head, css } = dashboardView.render(null, {
       store: new Store({
-        currentUserData: results[0]
+        currentUserData: results[0],
+        formIsInvalid: req.params.formIsInvalid
       })
     });
     // And I guess this is how express returns the page?
     res.write(head);
     res.write('<style>' + css.code + '</style>');
     res.write(html);
+    res.end();
   });
-});
+
+}
+
+// Application Pages
+app.get(['/', '/index.html'], formHandler, homeCtrl);
 
 app.get(['/story', 'story.html'], (req, res) => {
   // We need to know which story needs to be displayed in the view
@@ -225,8 +235,8 @@ app.get(['/story', 'story.html'], (req, res) => {
     res.write(head);
     res.write('<style>' + css.code + '</style>');
     res.write(html);
+    res.end();
   });
-
 
 });
 

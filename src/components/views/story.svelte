@@ -1,7 +1,6 @@
 <svelte:head>
   <title>Story</title>
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
-  <link href="main.css" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
@@ -25,12 +24,14 @@
     text-align: center;
     color: red;
   }
-  .storyPage {
+  #storyField {
     width: 100%;
     border: none;
     outline: none;
     color: #666;
     margin: 3rem 0;
+    font-size: 1rem;
+    font-family: 'IBM Plex Mono', monospace;
   }
   .container {
     max-width: 1200px;
@@ -52,41 +53,41 @@
   button:hover {
     background: #666;
   }
-  </style>
+</style>
 
-  <div class="container -split">
-    <div class="edit">
-      <h1>{$currentStoryData.title}</h1>
+<div class="container -split">
+  <div class="edit">
+    <h1>{$currentStoryData.title}</h1>
 
-      <div class="storyPage" id="storyEdit" contenteditable>{storyText}</div>
-      <form hidden action="/storySubmission" method="POST" id="storyContent">
-        <textarea rows="4" cols="50" name="storyField" id="storyField" value="{storyText}"></textarea>
-      </form>
-      <button type="submit" on:click="submit()">Save</button>
-    </div>
-    <div class="illustration">
-      <img src="" alt="">
-    </div>
+    <h2>{$currentStoryData.chapters[$currentStoryData.progress].title}</h2>
+
+    <form action="/addChapterText?id={$currentStoryData._id}" method="POST" id="storyContent">
+      {#if $currentStoryData.chapters[$currentStoryData.progress].text}
+        <textarea rows="4" cols="50" name="storyField" id="storyField">
+            {$currentStoryData.chapters[$currentStoryData.progress].text}
+        </textarea>
+      {:else}
+        <textarea rows="4" cols="50" name="storyField" id="storyField"
+          placeholder="start writing"></textarea>
+      {/if}
+      <input type="hidden" name="storyProgress" value="{$currentStoryData.progress}">
+      <button type="submit">Save</button>
+    </form>
+
+
   </div>
+  <div class="illustration">
+    <img src="/images/covers/{$currentStoryData.chapters[$currentStoryData.progress].imageSrc}" alt="">
+    <p class="caption">{$currentStoryData.chapters[$currentStoryData.progress].caption}</p>
+  </div>
+</div>
 
-  <script>
-    export default {
-      data() {
-        return {
-          storyText: "It was raining heavily..."
-        }
-      },
-      computed: {
-
-      },
-      methods: {
-        submit() {
-          const storyEdit = document.getElementById("storyEdit"),
-                storyField = document.getElementById("storyField"),
-                storyContent = document.getElementById("storyContent");
-          this.set({story: storyEdit.innerHTML})
-          storyContent.submit();
-        }
+<script>
+  export default {
+    data() {
+      return {
+        storyText: "It was raining heavily..."
       }
     }
-  </script>
+  }
+</script>

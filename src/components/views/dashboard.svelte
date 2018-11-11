@@ -1,7 +1,6 @@
 <svelte:head>
   <title>Story</title>
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
-  <link href="main.css" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
@@ -9,7 +8,7 @@
       background: #fff;
       font-family: 'IBM Plex Mono', monospace;
     }
-    .app {
+    .app, .page {
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -20,25 +19,30 @@
 
 </svelte:head>
 
+<header class="app-header">
+  <div class="message">Logged in as {$currentUserData.username}</div>
+</header>
+
 <div class="page">
 
-  <div class="user-info">
-    <div class="username">Username: {$currentUserData.username}</div>
-    <div class="add">
-      <form action="/addStory?user=simon" method="POST">
-        <input type="text" name="title" />
-        <button type="submit">Add Story</button>
-      </form>
-    </div>
+  <div class="add-section">
+    <form action="/addStory?user=simon" method="POST" class="form-story">
+      <label for="title">Story Title</label>
+      <input type="text" name="title" class="textinput" />
+      {#if $formIsInvalid}
+      Form is invalid
+      {/if}
+      <button type="submit">Add Story</button>
+    </form>
   </div>
 
-  <h3>Stories</h3>
+  <h3>Your stories</h3>
 
   <div class="story-data">
     <div class="panel-collection">
       {#each Object.entries($currentUserData.contributions) as [object, story]}
         <div class="panel">
-          <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/Cover-{story.title.replace(/ /g, '-')}.jpg" alt=""></a></div>
+          <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/" alt=""></a></div>
           <div class="title"><a href="/story?id={story.id}">{story.title}</a></div>
         </div>
       {/each}
@@ -48,12 +52,44 @@
 </div>
 
 <style>
-  .username {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+  .app-header {
+    background: #66b5c5;
+    display: inline-block;
+    width: 100%;
+    padding: 1rem;
+    color: #fff;
   }
-  .add {
+  .page {
+    padding: 2rem;
+  }
+  .add-section {
+    max-width: 350px;
+    margin: 0 auto;
+  }
+  .form-story {
     margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .form-story > * {
+    margin: 1rem 0;
+  }
+  .form-story .textinput {
+    padding: 1rem;
+  }
+  .form-story button {
+    background: #071D49;
+    color: #fff;
+    padding: 1rem;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    font-size: 1rem;
+  }
+  .form-story button:hover {
+    background: #172E59;
+    cursor: pointer;
   }
   .panel-collection {
     display: grid;
