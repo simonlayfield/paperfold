@@ -30,6 +30,9 @@
     padding: 1rem;
     color: #fff;
   }
+  .app-header a {
+    color: #fff;
+  }
   .page {
     padding: 2rem;
   }
@@ -68,9 +71,9 @@
 
 </style>
 
-<header class="app-header">
-  <div class="message">Logged in as </div>
-</header>
+<div class="app-header">
+  <div class="message"><a href="/">&lsaquo; Back to paperfold</a></div>
+</div>
 
 <div class="page">
   <h1>Submit illustrations to paperfold</h1>

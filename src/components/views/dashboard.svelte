@@ -29,6 +29,8 @@
 
 <div class="page">
 
+  <h1>Add a new story</h1>
+
   <div class="add-section">
     <form action="/addStory?user=simon" method="POST" class="form-story">
       <label for="title">Story Title</label>
@@ -40,22 +42,27 @@
     </form>
   </div>
 
-  <h3>Your stories</h3>
+  {#if $currentUserData.contributions.length}
+    <h3>Your stories</h3>
 
-  <div class="story-data">
-    <div class="panel-collection">
-      {#each Object.entries($currentUserData.contributions) as [object, story]}
-        <div class="panel">
-          <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/" alt=""></a></div>
-          <div class="title"><a href="/story?id={story.id}">{story.title}</a></div>
-        </div>
-      {/each}
+    <div class="story-data">
+      <div class="panel-collection">
+        {#each Object.entries($currentUserData.contributions) as [object, story]}
+          <div class="panel">
+            <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/" alt=""></a></div>
+            <div class="title"><a href="/story?id={story.id}">{story.title}</a></div>
+          </div>
+        {/each}
+      </div>
     </div>
-  </div>
+  {/if}
 
 </div>
 
 <style>
+  h1 {
+    text-align: center;
+  }
   .app-header {
     background: #66b5c5;
     display: flex;

@@ -109,8 +109,14 @@ app.post('/upload', (req, res) => {
 
 });
 
-app.post('/addChapterText', (req, res) => {
 
+// New idea! - single destination handler
+
+function destinationHandler (req, res) {
+  res.redirect(req.params.destination);
+}
+
+function chapterFormHandler (req, res, next) {
   let currentStoryId = new ObjectId(req.query.id),
       currentStoryData,
       currentProgress = req.body.storyProgress;
@@ -127,20 +133,21 @@ app.post('/addChapterText', (req, res) => {
       currentStoryData
     );
 
-    if(currentStoryData.progress < 4) {
-      res.redirect('/story?id=' + req.query.id);
+    if(currentStoryData.progress < 3) {
+      req.params = {destination: '/story?id=' + req.query.id};
     } else {
-      res.redirect('/');
+      req.params = {destination: '/complete'};
     }
-    res.end();
+    return next();
 
   });
+}
 
-});
+app.post('/addChapterText', chapterFormHandler, destinationHandler);
 
-app.post('/addStory', formHandler, homeCtrl);
+app.post('/addStory', storyFormHandler, homeCtrl);
 
-function formHandler (req, res, next) {
+function storyFormHandler (req, res, next) {
 
   if (req.body.title === "") {
     req.params = {
@@ -197,44 +204,41 @@ function homeCtrl (req, res) {
   db.collection('users').find({
     "username": "simon"
   }).toArray(function(err, results) {
+
     if (err) return console.log(err);
-    // Here's how I render out the component as a page
-    // https://svelte.technology/guide#server-side-api
+
     const { html, head, css } = dashboardView.render(null, {
       store: new Store({
         currentUserData: results[0],
         formIsInvalid: req.params.formIsInvalid
       })
     });
-    // And I guess this is how express returns the page?
+
     res.write(head);
     res.write('<style>' + css.code + '</style>');
     res.write(html);
     res.end();
+
   });
 
 }
 
-// Application Pages
-app.get(['/', '/index.html'], formHandler, homeCtrl);
+function storyCtrl (req, res) {
 
-app.get(['/story', 'story.html'], (req, res) => {
-  // We need to know which story needs to be displayed in the view
-  // We get this from the req object
   const currentStoryId = new ObjectId(req.query.id);
 
   db.collection('stories').find({
     "_id": currentStoryId
   }).toArray(function(err, results) {
     if (err) return console.log(err);
-    // Here's how I render out the component as a page
-    // https://svelte.technology/guide#server-side-api
+
     const { html, head, css } = storyView.render(null, {
       store: new Store({
         currentStoryData: results[0]
       })
     });
-    // And I guess this is how express returns the page?
+
+    res.set({ 'content-type': 'text/html; charset=utf-8' });
     res.write(head);
     res.write('<style>' + css.code + '</style>');
     res.write(html);
@@ -248,15 +252,21 @@ app.get(['/story', 'story.html'], (req, res) => {
           }
         });
       </script>
-    `)
+    `);
     res.end();
   });
 
-});
+}
+
+// Application Pages
+app.get(['/', '/index.html'], homeCtrl);
+
+app.get(['/story', 'story.html'], storyCtrl);
 
 app.get(['/illustration', 'illustration.html'], (req, res) => {
   const { html, head, css } = illustrationSubmissionView.render();
-  // And I guess this is how express returns the page?
+
+  res.set({ 'content-type': 'text/html; charset=utf-8' });
   res.write(head);
   res.write('<style>' + css.code + '</style>');
   res.write(html);
@@ -265,8 +275,8 @@ app.get(['/illustration', 'illustration.html'], (req, res) => {
 
 app.get('/complete', (req, res) => {
   const { html, head, css } = completeView.render();
-  // And I guess this is how express returns the page?
- res.set({ 'content-type': 'text/html; charset=utf-8' });
+
+  res.set({ 'content-type': 'text/html; charset=utf-8' });
   res.write(head);
   res.write('<style>' + css.code + '</style>');
   res.write(html);
