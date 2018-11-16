@@ -1,0 +1,123 @@
+@font-face {
+    font-family: 'bariollight';
+    src: url('../fonts/bariol_light-webfont.eot');
+    src: url('../fonts/bariol_light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bariol_light-webfont.woff2') format('woff2'),
+         url('../fonts/bariol_light-webfont.woff') format('woff'),
+         url('../fonts/bariol_light-webfont.ttf') format('truetype'),
+         url('../fonts/bariol_light-webfont.svg#bariollight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'bariolregular';
+    src: url('../fonts/bariol_regular-webfont.eot');
+    src: url('../fonts/bariol_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bariol_regular-webfont.woff2') format('woff2'),
+         url('../fonts/bariol_regular-webfont.woff') format('woff'),
+         url('../fonts/bariol_regular-webfont.ttf') format('truetype'),
+         url('../fonts/bariol_regular-webfont.svg#bariolregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  font-family: 'bariolregular';
+  font-size: 1.1rem;
+  /* font-family: 'IBM Plex Mono', monospace; */
+}
+h1, h2 {
+  font-family: 'bariollight';
+  color: #999;
+  letter-spacing: .1rem;
+  margin-top: 0;
+}
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+img {
+  max-width: 100%;
+}
+a {
+  color: #66b5c5;
+}
+.app-header {
+  background: #66b5c5;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+  color: #fff;
+  margin-bottom: 4rem;
+}
+.app-header a {
+  color: #fff;
+}
+.blue-row {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background: #66b5c5;
+  color: #fff;
+}
+.grey-row {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background: #f1f1f1;
+}
+.blue-row h1, .blue-row h2 {
+  color: #fff;
+}
+.blue-row .textinput {
+  border: none;
+}
+.callout {
+  text-align: center;
+  display: block;
+  font-size: 2rem;
+  margin: 3rem 0;
+}
+.button, button {
+  display: inline-block;
+  background: #071D49;
+  color: #fff;
+  padding: 1rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+.button:hover, button:hover {
+  background: #172E59;
+  cursor: pointer;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.container.-slim {
+  max-width: 800px
+}
+.container.-narrow {
+  max-width: 500px;
+}
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 40px;
+}
+.spread {
+  background: #fff;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

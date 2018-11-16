@@ -1,21 +1,7 @@
 <svelte:head>
   <title>Add an illustration to Paperfold</title>
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #fff;
-      font-family: 'IBM Plex Mono', monospace;
-    }
-    .app, .page {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    img {
-      max-width: 100%;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/main.css">
 
 </svelte:head>
 
@@ -47,40 +33,54 @@
     flex-direction: column;
   }
   .form-illustration > * {
-    margin: 1rem 0;
+    margin: .5rem 0;
   }
   .form-illustration .textinput {
     padding: 1rem;
-  }
-  .form-illustration button {
-    background: #071D49;
-    color: #fff;
-    padding: 1rem;
-    border: none;
     outline: none;
-    border-radius: 3px;
-    font-size: 1rem;
+    border: 1px solid #ddd;
   }
-  .form-illustration button:hover {
-    background: #172E59;
-    cursor: pointer;
+  .form-illustration .textinput:focus {
+    outline: none;
+    border: 1px solid #66b5c5;
   }
+
   .validation {
     color: #C93F54;
   }
-
-</style>
+  .fileinput {
+    display: none;
+  }
+  .fileinput-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border: 1px solid #000;
+    cursor: pointer;
+  }
+  .fileinput-label > * {
+    margin-left: 1rem;
+  }
+  .fileinput-label svg {
+    margin-left: 0;
+  }
+  </style>
 
 <div class="app-header">
-  <div class="message"><a href="/">&lsaquo; Back to paperfold</a></div>
+  <div class="message"><a href="/dashboard">&lsaquo; Back to paperfold</a></div>
 </div>
 
 <div class="page">
   <h1>Submit illustrations to paperfold</h1>
 
   <div class="add-section">
-    <form action="/upload" method="post" enctype="multipart/form-data" class="form-illustration">
-      <input type="file" name="cover" />
+    <form action="/upload" method="post" enctype="multipart/form-data" class="form-illustration" autocomplete="off">
+      <label for="cover" class="fileinput-label">
+        <!-- <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg> -->
+        <span>Select a file...</span>
+      </label>
+      <input type="file" name="cover" id="cover" class="fileinput" />
       <label for="title">Title</label>
       <input type="text" name="title" id="title" class="textinput" />
       <label for="caption">Caption</label>

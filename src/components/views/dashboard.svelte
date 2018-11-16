@@ -1,24 +1,7 @@
 <svelte:head>
   <title>Story</title>
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #fff;
-      font-family: 'IBM Plex Mono', monospace;
-    }
-    .app, .page {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    img {
-      max-width: 100%;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/main.css">
 
 </svelte:head>
 
@@ -29,18 +12,47 @@
 
 <div class="page">
 
-  <h1>Add a new story</h1>
+  {#if !$currentUserData.contributions.length}
+    <div class="grey-row">
 
-  <div class="add-section">
-    <form action="/addStory?user=simon" method="POST" class="form-story">
-      <label for="title">Story Title</label>
-      <input type="text" name="title" class="textinput" />
-      {#if $formIsInvalid}
-        <div class="validation">^ Add a title</div>
-      {/if}
-      <button type="submit">Add Story</button>
-    </form>
-  </div>
+      <div class="grid">
+
+        <div class="help">
+          <h2>Get started</h2>
+          <p></p>
+        </div>
+
+        <div class="add-section">
+          <form action="/addStory?user=simon" method="POST" class="form-story">
+            <label for="title">Story Title</label>
+            <input type="text" name="title" class="textinput" />
+            {#if $formIsInvalid}
+              <div class="validation">^ Add a title</div>
+            {/if}
+            <button type="submit">Add Story</button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  {:else}
+
+    <h1>Add a new story</h1>
+
+    <div class="add-section">
+      <form action="/addStory?user=simon" method="POST" class="form-story"  autocomplete="off">
+        <label for="title">Story Title</label>
+        <input type="text" name="title" class="textinput" />
+        {#if $formIsInvalid}
+          <div class="validation">^ Add a title</div>
+        {/if}
+        <button type="submit">Add Story</button>
+      </form>
+    </div>
+
+  {/if}
+
 
   {#if $currentUserData.contributions.length}
     <h3>Your stories</h3>

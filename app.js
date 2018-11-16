@@ -47,7 +47,9 @@ require('svelte/ssr/register')({
 });
 
 const { Store } = require('svelte/store.umd.js'),
+      welcomeView = require('./src/components/views/welcome.svelte'),
       dashboardView = require('./src/components/views/dashboard.svelte'),
+      tocView = require('./src/components/views/toc.svelte'),
       storyView = require('./src/components/views/story.svelte'),
       illustrationSubmissionView = require('./src/components/views/illustration.svelte'),
       completeView = require('./src/components/views/complete.svelte'),
@@ -117,6 +119,18 @@ function destinationHandler (req, res) {
 }
 
 function chapterFormHandler (req, res, next) {
+
+  if (req.body.storyField === "") {
+    req.params = {
+      formIsInvalid: true
+    };
+    return next();
+  } else {
+    req.params = {
+      formIsInvalid: false
+    };
+  }
+
   let currentStoryId = new ObjectId(req.query.id),
       currentStoryData,
       currentProgress = req.body.storyProgress;
@@ -142,10 +156,6 @@ function chapterFormHandler (req, res, next) {
 
   });
 }
-
-app.post('/addChapterText', chapterFormHandler, destinationHandler);
-
-app.post('/addStory', storyFormHandler, homeCtrl);
 
 function storyFormHandler (req, res, next) {
 
@@ -177,6 +187,9 @@ function storyFormHandler (req, res, next) {
       if (err) return console.log(err);
       newStoryId = result.insertedId;
       console.log('saved to database');
+
+      req.query.id = newStoryId;
+
       db.collection('users').updateOne(
           {
             "username": currentUser
@@ -196,10 +209,41 @@ function storyFormHandler (req, res, next) {
 
   });
 
+}
 
+function tocCtrl (req, res) {
+
+  const currentStoryId = new ObjectId(req.query.id);
+
+  db.collection('stories').find({
+    "_id": currentStoryId
+  }).toArray(function(err, results) {
+    if (err) return console.log(err);
+
+    const { html, head, css } = tocView.render(null, {
+      store: new Store({
+        currentStoryData: results[0]
+      })
+    });
+
+    res.set({ 'content-type': 'text/html; charset=utf-8' });
+    res.write(head);
+    res.write('<style>' + css.code + '</style>');
+    res.write(html);
+    res.end();
+  });
 }
 
 function homeCtrl (req, res) {
+  const { html, head, css } = welcomeView.render();
+  res.set({ 'content-type': 'text/html; charset=utf-8' });
+  res.write(head);
+  res.write('<style>' + css.code + '</style>');
+  res.write(html);
+  res.end();
+}
+
+function dashboardCtrl (req, res) {
 
   db.collection('users').find({
     "username": "simon"
@@ -213,7 +257,7 @@ function homeCtrl (req, res) {
         formIsInvalid: req.params.formIsInvalid
       })
     });
-
+    res.set({ 'content-type': 'text/html; charset=utf-8' });
     res.write(head);
     res.write('<style>' + css.code + '</style>');
     res.write(html);
@@ -258,14 +302,23 @@ function storyCtrl (req, res) {
 
 }
 
+// User Submissions
+app.post('/addChapterText', chapterFormHandler, destinationHandler);
+
+app.post('/addStory', storyFormHandler, tocCtrl);
+
+
 // Application Pages
 app.get(['/', '/index.html'], homeCtrl);
+
+app.get('/dashboard', dashboardCtrl);
+
+app.get('/toc', tocCtrl);
 
 app.get(['/story', 'story.html'], storyCtrl);
 
 app.get(['/illustration', 'illustration.html'], (req, res) => {
   const { html, head, css } = illustrationSubmissionView.render();
-
   res.set({ 'content-type': 'text/html; charset=utf-8' });
   res.write(head);
   res.write('<style>' + css.code + '</style>');
@@ -275,7 +328,6 @@ app.get(['/illustration', 'illustration.html'], (req, res) => {
 
 app.get('/complete', (req, res) => {
   const { html, head, css } = completeView.render();
-
   res.set({ 'content-type': 'text/html; charset=utf-8' });
   res.write(head);
   res.write('<style>' + css.code + '</style>');

@@ -28,7 +28,7 @@
   <div class="add-section">
     <div class="hero">&#9786;</div>
     <h1>Great! All done.</h1>
-    <p><a href="/">&lsaquo; Head back</a> to paperfold</p>
+    <p><a href="/dashboard">&lsaquo; Head back</a> to paperfold</p>
     <p>- or -</p>
     <p><a href="/illustration">Submit another illustration</p>
   </div>
