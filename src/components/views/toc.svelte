@@ -1,6 +1,6 @@
 <svelte:head>
   <title>Story</title>
-  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Work+Sans" rel="stylesheet">
   <link href="/css/main.css" rel="stylesheet">
 </svelte:head>
 
@@ -38,7 +38,9 @@
   .chapter {
     color: #999;
   }
-
+  .add-button {
+    margin-top: 2rem;
+  }
 </style>
 
   <div class="app-header">
@@ -61,6 +63,15 @@
         <div class="page">
           <div class="chapter">Chapter {index+1}</div>
           <div class="title">{chapter.title}</div>
+          {#if index < $currentStoryData.progress}
+            <p>{$currentStoryData.chapters[index].text}</p>
+          {:elseif index === parseInt($currentStoryData.progress)}
+            <div class="add-button">
+              <a href="/story?id={$currentStoryData._id}" class="button">Write Chapter {index+1}</a>
+            </div>
+          {:else}
+
+          {/if}
         </div>
         <div class="illustration">
           <div>

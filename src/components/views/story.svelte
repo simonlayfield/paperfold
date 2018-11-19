@@ -1,6 +1,6 @@
 <svelte:head>
   <title>Story</title>
-  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Work+Sans|IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
   <link href="/css/main.css" rel="stylesheet">
 </svelte:head>
 
@@ -84,7 +84,7 @@
   {:else}
 
   <div class="app-header">
-    <div class="message"><a href="/dashboard">&lsaquo; Back to paperfold</a> | {$currentStoryData.title}</div>
+    <div class="message"><a href="/dashboard">&lsaquo; Back to paperfold</a> | <span class="header-title">{$currentStoryData.title}</span></div>
   </div>
 
   <div class="container -split">
@@ -93,21 +93,25 @@
       <div class="chapter-number">Chapter {parseInt($currentStoryData.progress) + 1}</div>
       <h2>{$currentStoryData.chapters[$currentStoryData.progress].title}</h2>
 
-      {#if $currentStoryData.progress === "0"}
-        <p>Once upon a time...</p>
-      {:elseif $currentStoryData.progress === "1"}
-        <p>but...</p>
-      {:else}
-        <p>and then...</p>
-      {/if}
       <form action="/addChapterText?id={$currentStoryData._id}" method="POST" id="storyContent">
         {#if $currentStoryData.chapters[$currentStoryData.progress].text}
           <textarea autofocus rows="4" cols="50" name="storyField" id="storyField">
               {$currentStoryData.chapters[$currentStoryData.progress].text}
           </textarea>
         {:else}
-          <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
-            placeholder="start writing..."></textarea>
+
+
+              {#if $currentStoryData.progress === "0"}
+                <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
+                  placeholder="e.g. Once upon a time..."></textarea>
+              {:elseif $currentStoryData.progress === "1"}
+                <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
+                  placeholder="but..."></textarea>
+              {:else}
+                <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
+                  placeholder="and then..."></textarea>
+              {/if}
+
         <!-- <div>{$currentStoryData.chapters[$currentStoryData.progress].text}</div>
         <div id="character-count"></div> -->
         {/if}

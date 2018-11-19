@@ -1,6 +1,6 @@
 <svelte:head>
   <title>Story</title>
-  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Work+Sans" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
 
 </svelte:head>
@@ -15,21 +15,19 @@
   {#if !$currentUserData.contributions.length}
     <div class="grey-row">
 
-      <div class="grid">
+      <div class="add-section">
 
-        <div class="help">
-          <h2>Get started</h2>
-          <p></p>
-        </div>
+        <div>
+          <h2 style="text-align: center;">Get started</h2>
+          <p>First things first, let's add a Story Title and generate some chapters.</p>
 
-        <div class="add-section">
-          <form action="/addStory?user=simon" method="POST" class="form-story">
+          <form action="/addStory?user=simon" method="POST" class="form-story" autocomplete="off">
             <label for="title">Story Title</label>
-            <input type="text" name="title" class="textinput" />
+            <input type="text" name="title" class="textinput" autofocus>
             {#if $formIsInvalid}
               <div class="validation">^ Add a title</div>
             {/if}
-            <button type="submit">Add Story</button>
+            <button type="submit" class="button">Generate a Story</button>
           </form>
         </div>
 
@@ -55,15 +53,27 @@
 
 
   {#if $currentUserData.contributions.length}
-    <h3>Your stories</h3>
-
     <div class="story-data">
+      <h3>Continue writing</h3>
       <div class="panel-collection">
         {#each Object.entries($currentUserData.contributions) as [object, story]}
-          <div class="panel">
-            <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/" alt=""></a></div>
-            <div class="title"><a href="/story?id={story.id}">{story.title}</a></div>
-          </div>
+          {#if !story.complete}
+            <div class="panel">
+              <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/" alt=""></a></div>
+              <div class="title"><a href="/story?id={story.id}">{story.title}</a></div>
+            </div>
+          {/if}
+        {/each}
+      </div>
+      <h3>Read previous stories</h3>
+      <div class="panel-collection">
+        {#each Object.entries($currentUserData.contributions) as [object, story]}
+          {#if story.complete}
+            <div class="panel">
+              <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/" alt=""></a></div>
+              <div class="title"><a href="/story?id={story.id}">{story.title}</a></div>
+            </div>
+          {/if}
         {/each}
       </div>
     </div>
@@ -75,16 +85,8 @@
   h1 {
     text-align: center;
   }
-  .app-header {
-    background: #66b5c5;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 1rem;
-    color: #fff;
-  }
-  .app-header a {
-    color: #fff;
+  .help {
+    text-align: center;
   }
   .page {
     padding: 2rem;
@@ -98,6 +100,8 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
+    max-width: 350px;
   }
   .form-story > * {
     margin: 1rem 0;
@@ -128,16 +132,17 @@
   }
   .panel {
     padding: 2rem;
-    border: 1px solid #66b5c5;
+    background: #1f6fd5;
+  }
+  .panel a {
+    color: #fff;
   }
   .title {
     text-align: center;
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
-  .title a {
-    color: #666;
-  }
+
 </style>
 
 <script>

@@ -141,18 +141,47 @@ function chapterFormHandler (req, res, next) {
     currentStoryData.progress = parseInt(req.body.storyProgress) + 1;
     currentStoryData.chapters[currentProgress].text = req.body.storyField;
 
-    db.collection('stories').update({
-      "_id": currentStoryId
-    },
-      currentStoryData
-    );
-
     if(currentStoryData.progress < 3) {
-      req.params = {destination: '/story?id=' + req.query.id};
+
+      db.collection('stories').update({
+        "_id": currentStoryId
+      },
+        currentStoryData
+      );
+
+      req.params = { destination: '/toc?id=' + req.query.id };
+      return next();
+
     } else {
-      req.params = {destination: '/complete'};
+
+      newChapterObj = Object.assign(currentStoryData, {
+        "complete": true
+      });
+
+      db.collection('stories').updateOne({
+        "_id": currentStoryId
+      },
+        newChapterObj,
+        function(err, result) {
+          db.collection('users').updateOne(
+              {
+                "$oid": req.query.id
+              }, {
+                "$push": {
+                  "complete": true
+                }
+              },
+              function(err, result) {
+                  req.params = { destination: '/complete' };
+                  return next();
+              }
+            );
+        }
+      );
+
+
     }
-    return next();
+
 
   });
 }
