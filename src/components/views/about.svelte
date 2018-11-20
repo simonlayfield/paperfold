@@ -11,8 +11,9 @@
 <div class="page">
 
   <div class="add-section">
-    <h1>The Void thanks you.</h1>
-    <p>May you find your worth in the waking world.</p>
+    <h1>What is The Void?</h1>
+    <p>Abstract images, by nature, are open to interpretation. Two different people may look at the same composition and see and connect with totally different aspects.</p>
+    <p><strong>The Void</strong> is an experiment that encourages public contributions to short stories, fueled by the mystery and suspense of purposefully composed abstract ink compositions.</p>
     <p><a href="/dashboard">&lsaquo; Head back</a> to the void</p>
   </div>
 

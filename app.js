@@ -51,6 +51,7 @@ const { Store } = require('svelte/store.umd.js'),
       dashboardView = require('./src/components/views/dashboard.svelte'),
       tocView = require('./src/components/views/toc.svelte'),
       storyView = require('./src/components/views/story.svelte'),
+      aboutView = require('./src/components/views/about.svelte'),
       illustrationSubmissionView = require('./src/components/views/illustration.svelte'),
       completeView = require('./src/components/views/complete.svelte'),
       ObjectId = require('mongodb').ObjectId;
@@ -321,6 +322,7 @@ function storyCtrl (req, res) {
     res.write(head);
     res.write('<style>' + css.code + '</style>');
     res.write(html);
+    res.write('<script src="/js/main.js"></script>');
     res.write(`
       <script src="/js/CharacterCount.js"></script>
       <script>
@@ -351,6 +353,14 @@ app.get('/dashboard', dashboardCtrl);
 app.get('/toc', tocCtrl);
 
 app.get(['/story', 'story.html'], storyCtrl);
+app.get('/about', (req, res) => {
+  const { html, head, css } = aboutView.render();
+  res.set({ 'content-type': 'text/html; charset=utf-8' });
+  res.write(head);
+  res.write('<style>' + css.code + '</style>');
+  res.write(html);
+  res.end();
+});
 
 app.get(['/illustration', 'illustration.html'], (req, res) => {
   const { html, head, css } = illustrationSubmissionView.render();
@@ -358,6 +368,7 @@ app.get(['/illustration', 'illustration.html'], (req, res) => {
   res.write(head);
   res.write('<style>' + css.code + '</style>');
   res.write(html);
+  res.write('<script src="/js/main.js"></script>');
   res.end();
 });
 

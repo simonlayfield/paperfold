@@ -55,15 +55,13 @@
   .edit, .edit h1, .edit h2 {
     font-family: 'IBM Plex Mono', monospace;
   }
-  .message a {
-    margin-right: 2rem;
-  }
+
 </style>
 
   {#if $currentStoryData.progress === 3}
 
     <div class="app-header">
-      <div class="message"><a href="/dashboard">&lsaquo; Back to paperfold</a></div>
+      <div class="message"><a href="/dashboard">&lsaquo; Back to the void</a></div>
     </div>
 
     <h1>{$currentStoryData.title}</h1>
@@ -84,14 +82,13 @@
   {:else}
 
   <div class="app-header">
-    <div class="message"><a href="/dashboard">&lsaquo; Back to paperfold</a> | <span class="header-title">{$currentStoryData.title}</span></div>
+    <div class="message"><a href="/dashboard">&lsaquo; Back to the void</a> | <span class="header-title">{$currentStoryData.title}</span></div>
   </div>
 
   <div class="container -split">
 
     <div class="edit">
       <div class="chapter-number">Chapter {parseInt($currentStoryData.progress) + 1}</div>
-      <h2>{$currentStoryData.chapters[$currentStoryData.progress].title}</h2>
 
       <form action="/addChapterText?id={$currentStoryData._id}" method="POST" id="storyContent">
         {#if $currentStoryData.chapters[$currentStoryData.progress].text}
@@ -100,23 +97,27 @@
           </textarea>
         {:else}
 
+          {#if $currentStoryData.progress === "0"}
+            <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
+              placeholder="e.g. Once upon a time..."></textarea>
+          {:elseif $currentStoryData.progress === "1"}
+            <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
+              placeholder="but..."></textarea>
+          {:else}
+            <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
+              placeholder="and then..."></textarea>
+          {/if}
 
-              {#if $currentStoryData.progress === "0"}
-                <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
-                  placeholder="e.g. Once upon a time..."></textarea>
-              {:elseif $currentStoryData.progress === "1"}
-                <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
-                  placeholder="but..."></textarea>
-              {:else}
-                <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
-                  placeholder="and then..."></textarea>
-              {/if}
+        <p id="characterLimit">
+          <small>
+          <span id="characterMessage">Character limit:</span>
+           <span id="characterNum">200</span>
+          </small>
+        </p>
 
-        <!-- <div>{$currentStoryData.chapters[$currentStoryData.progress].text}</div>
-        <div id="character-count"></div> -->
         {/if}
         <input type="hidden" name="storyProgress" value="{$currentStoryData.progress}">
-        <button type="submit">Save</button>
+        <button type="submit" id="chapterSaveButton">Save</button>
       </form>
       {#if $formIsInvalid}
         <div class="validation">^ Make sure you add chapter text</div>
@@ -125,7 +126,6 @@
 
     <div class="illustration">
       <img src="/images/covers/{$currentStoryData.chapters[$currentStoryData.progress].imageSrc}" alt="">
-      <p class="caption">{$currentStoryData.chapters[$currentStoryData.progress].caption}</p>
     </div>
 
   </div>

@@ -7,7 +7,7 @@
 
 <header class="app-header">
   <div class="message">Logged in as {$currentUserData.username}</div>
-  <div><a href="/illustration">Submit an illustration</a></div>
+  <div><a href="/about">What is The Void?</a> | <a href="/illustration">Submit an illustration</a></div>
 </header>
 
 <div class="page">
@@ -18,7 +18,7 @@
       <div class="add-section">
 
         <div>
-          <h2 style="text-align: center;">Get started</h2>
+          <h2 style="text-align: center;">Commit to the Void</h2>
           <p>First things first, let's add a Story Title and generate some chapters.</p>
 
           <form action="/addStory?user=simon" method="POST" class="form-story" autocomplete="off">
@@ -36,12 +36,13 @@
     </div>
   {:else}
 
-    <h1>Add a new story</h1>
+    <h1>Create a new story</h1>
 
     <div class="add-section">
-      <form action="/addStory?user=simon" method="POST" class="form-story"  autocomplete="off">
+      <form action="/addStory?user=simon" method="POST" class="form-story" autocomplete="off">
         <label for="title">Story Title</label>
-        <input type="text" name="title" class="textinput" />
+        <input type="text" name="title" class="textinput" autofocus>
+        <div><small>Keep it short and sweet...</small></div>
         {#if $formIsInvalid}
           <div class="validation">^ Add a title</div>
         {/if}
@@ -51,14 +52,14 @@
 
   {/if}
 
-  <div class="story-data">
+  <div class="container story-data">
     {#if $currentUserData.contributions.length}
-      <h3>Continue writing</h3>
+      <h3>Continue writing...</h3>
       <div class="panel-collection">
         {#each Object.entries($currentUserData.contributions) as [object, story]}
           <div class="panel">
-            <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/" alt=""></a></div>
-            <div class="title"><a href="/story?id={story.id}">{story.title}</a></div>
+            <div class="title">{story.title}</div>
+            <div class="links"><a href="/story?id={story.id}">Write</a> | <a href="/toc?id={story.id}">View chapters</a></div>
           </div>
         {/each}
       </div>
@@ -68,8 +69,8 @@
       <div class="panel-collection">
         {#each Object.entries($currentUserData.complete) as [object, story]}
           <div class="panel">
-            <div class="cover"><a href="/story?id={story._id}"><img src="images/covers/" alt=""></a></div>
-            <div class="title"><a href="/story?id={story._id}">{story.title}</a></div>
+            <div class="title">{story.title}</div>
+            <div class="links"><a href="/story?id={story._id}">Read</a></div>
           </div>
         {/each}
       </div>
@@ -106,7 +107,7 @@
     padding: 1rem;
   }
   .form-story button {
-    background: #071D49;
+    background: #000;
     color: #fff;
     padding: 1rem;
     border: none;
@@ -115,28 +116,33 @@
     font-size: 1rem;
   }
   .form-story button:hover {
-    background: #172E59;
+    background: #444;
     cursor: pointer;
   }
-  .validation {
-    color: #C93F54;
-  }
+
   .panel-collection {
     display: grid;
     grid-gap: 30px;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, 200px);
+    margin-bottom: 3rem;
   }
-  .panel {
+  .title {
     padding: 2rem;
-    background: #1f6fd5;
-  }
-  .panel a {
-    color: #fff;
+    background: #ddd;
+    min-height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .title {
     text-align: center;
     padding-top: 2rem;
     padding-bottom: 2rem;
+    color: #222;
+  }
+  .links {
+    font-size: .8rem;
+    margin-top: 7px;
   }
 
 </style>

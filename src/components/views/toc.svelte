@@ -43,9 +43,9 @@
   }
 </style>
 
-  <div class="app-header">
-    <div class="message"><a href="/dashboard">&lsaquo; Back to paperfold</a> | {$currentStoryData.title}</div>
-  </div>
+<div class="app-header">
+  <div class="message"><a href="/dashboard">&lsaquo; Back to the void</a> | <span class="header-title">{$currentStoryData.title}</span></div>
+</div>
 
   <div class="container">
     <h1>Here's your story!</h1>
@@ -62,7 +62,6 @@
       <div class="two spread">
         <div class="page">
           <div class="chapter">Chapter {index+1}</div>
-          <div class="title">{chapter.title}</div>
           {#if index < $currentStoryData.progress}
             <p>{$currentStoryData.chapters[index].text}</p>
           {:elseif index === parseInt($currentStoryData.progress)}
@@ -76,7 +75,6 @@
         <div class="illustration">
           <div>
             <img src="/images/covers/{chapter.imageSrc}" width="300px" alt="">
-            <div class="caption">{chapter.caption}</div>
           </div>
         </div>
       </div>

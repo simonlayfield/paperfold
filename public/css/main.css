@@ -9,7 +9,7 @@ html, body {
   background: #fff;
   font-family: 'Work Sans', sans-serif;
   font-size: 1.1rem;
-  /* line-height: 1.5em; */
+  line-height: 1.5em;
 }
 h1, h2 {
   font-family: 'Fredoka One', cursive;
@@ -25,15 +25,18 @@ img {
   max-width: 100%;
 }
 a {
-  color: #1f6fd5;
+  color: #0081FF;
 }
 
 ._padded {
   padding: 2rem;
 }
+._center {
+  text-align: center;
+}
 
 .app-header {
-  background: #1f6fd5;
+  background: #000;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -49,10 +52,9 @@ a {
   margin-left: 2rem;
 }
 .blue-row {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  background: #1f6fd5;
+  background: #000;
   color: #fff;
+  overflow: auto;
 }
 .grey-row {
   padding-top: 3rem;
@@ -65,6 +67,13 @@ a {
 .blue-row .textinput {
   border: none;
 }
+.blue-row .button, .blue-row button {
+  background: #fff;
+  color: #000;
+}
+.blue-row .button:hover, .blue-row button:hover {
+  background: #ddd;
+}
 .callout {
   text-align: center;
   display: block;
@@ -73,7 +82,7 @@ a {
 }
 .button, button {
   display: inline-block;
-  background: #071D49;
+  background: #000;
   color: #fff;
   padding: 1rem;
   border: none;
@@ -84,8 +93,11 @@ a {
   font-family: 'Fredoka One', cursive;
 }
 .button:hover, button:hover {
-  background: #172E59;
+  background: #444;
   cursor: pointer;
+}
+.button:disabled, button:disabled {
+  background: #ccc;
 }
 .container {
   max-width: 1200px;
@@ -111,4 +123,13 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid gap: 50px;
+}
+.validation {
+  color: #C93F54;
+}
+input[type=text] {
+  font-size: 1rem;
+}
+.message a {
+  margin-right: 2rem;
 }
