@@ -139,15 +139,18 @@ function chapterFormHandler (req, res, next) {
     currentStoryData = results[0];
 
     currentStoryData.progress = parseInt(req.body.storyProgress) + 1;
+    console.log('progress is ' + currentStoryData.progress);
     currentStoryData.chapters[currentProgress].text = req.body.storyField;
+
+    const currentStoryTitle = currentStoryData.title;
 
     if(currentStoryData.progress < 3) {
 
-      db.collection('stories').update({
+      db.collection('stories').updateOne({
         "_id": currentStoryId
-      },
-        currentStoryData
-      );
+      },{
+        $set: currentStoryData
+      });
 
       req.params = { destination: '/toc?id=' + req.query.id };
       return next();
@@ -160,22 +163,23 @@ function chapterFormHandler (req, res, next) {
 
       db.collection('stories').updateOne({
         "_id": currentStoryId
+      }, {
+        $set: newChapterObj
       },
-        newChapterObj,
         function(err, result) {
-          db.collection('users').updateOne(
-              {
-                "$oid": req.query.id
-              }, {
-                "$push": {
-                  "complete": true
-                }
-              },
-              function(err, result) {
-                  req.params = { destination: '/complete' };
-                  return next();
-              }
-            );
+
+          db.collection('users').updateMany({
+              "username": "simon"
+            }, {
+              $pull: { "contributions": { "title": currentStoryTitle }},
+              $push: { "complete": currentStoryData }
+            }, {
+              upsert: true
+            },
+            function(err, result) {
+                req.params = { destination: '/complete' };
+                return next();
+            });
         }
       );
 
@@ -223,12 +227,14 @@ function storyFormHandler (req, res, next) {
           {
             "username": currentUser
           }, {
-            "$push": {
+            $push: {
               "contributions": {
                 "id": newStoryId,
                 "title": req.body.title
-              },
+              }
             }
+          }, {
+            upsert: true
           },
           function(err, result) {
               return next();

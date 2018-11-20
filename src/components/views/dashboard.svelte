@@ -12,7 +12,7 @@
 
 <div class="page">
 
-  {#if !$currentUserData.contributions.length}
+  {#if !$currentUserData.contributions.length && !$currentUserData.complete.length}
     <div class="grey-row">
 
       <div class="add-section">
@@ -51,34 +51,30 @@
 
   {/if}
 
-
-  {#if $currentUserData.contributions.length}
-    <div class="story-data">
+  <div class="story-data">
+    {#if $currentUserData.contributions.length}
       <h3>Continue writing</h3>
       <div class="panel-collection">
         {#each Object.entries($currentUserData.contributions) as [object, story]}
-          {#if !story.complete}
-            <div class="panel">
-              <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/" alt=""></a></div>
-              <div class="title"><a href="/story?id={story.id}">{story.title}</a></div>
-            </div>
-          {/if}
+          <div class="panel">
+            <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/" alt=""></a></div>
+            <div class="title"><a href="/story?id={story.id}">{story.title}</a></div>
+          </div>
         {/each}
       </div>
+    {/if}
+    {#if $currentUserData.complete.length}
       <h3>Read previous stories</h3>
       <div class="panel-collection">
-        {#each Object.entries($currentUserData.contributions) as [object, story]}
-          {#if story.complete}
-            <div class="panel">
-              <div class="cover"><a href="/story?id={story.id}"><img src="images/covers/" alt=""></a></div>
-              <div class="title"><a href="/story?id={story.id}">{story.title}</a></div>
-            </div>
-          {/if}
+        {#each Object.entries($currentUserData.complete) as [object, story]}
+          <div class="panel">
+            <div class="cover"><a href="/story?id={story._id}"><img src="images/covers/" alt=""></a></div>
+            <div class="title"><a href="/story?id={story._id}">{story.title}</a></div>
+          </div>
         {/each}
       </div>
-    </div>
-  {/if}
-
+    {/if}
+  </div>
 </div>
 
 <style>
