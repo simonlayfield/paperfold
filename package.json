@@ -7,7 +7,8 @@
     "express": "^4.16.4",
     "mongodb": "^3.1.9",
     "mongoose": "^5.3.10",
-    "multer": "^1.4.1"
+    "multer": "^1.4.1",
+    "svelte": "^2.15.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -22,8 +23,7 @@
     "rollup": "^0.66.6",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-svelte": "^4.3.2",
-    "svelte": "^2.15.1"
+    "rollup-plugin-svelte": "^4.3.2"
   },
   "scripts": {
     "start": "node app.js",
