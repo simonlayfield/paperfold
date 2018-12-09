@@ -57,13 +57,14 @@ const { Store } = require('svelte/store.umd.js'),
       ObjectId = require('mongodb').ObjectId;
 
 let db;
+const PORT = process.env.PORT || 8080;
 
 const MongoClient = require('mongodb').MongoClient;
 MongoClient.connect('mongodb://paperfoldUser:ifj7hkWC@ds153763.mlab.com:53763/paperfold', (err, client) => {
 
   if (err) return console.log(err);
   db = client.db('paperfold');
-  app.listen(8080, () => {
+  app.listen(PORT, () => {
     console.log('listening on 8080');
   });
 
