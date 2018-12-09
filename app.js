@@ -64,9 +64,7 @@ MongoClient.connect('mongodb://paperfoldUser:ifj7hkWC@ds153763.mlab.com:53763/pa
 
   if (err) return console.log(err);
   db = client.db('paperfold');
-  app.listen(PORT, () => {
-    console.log('listening on 8080');
-  });
+  app.listen(PORT, '0.0.0.0');
 
 });
 
