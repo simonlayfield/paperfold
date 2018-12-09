@@ -130,6 +130,10 @@ a {
 input[type=text] {
   font-size: 1rem;
 }
+input:focus {
+  outline: none;
+  /* border: none; */
+}
 .message a {
   margin-right: 2rem;
 }
