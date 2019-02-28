@@ -30,6 +30,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "./node_modules/.bin/nodemon app.js"
   },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ext": "js,svelte,html",
+    "watch": ["./src"]
+  },
   "author": "",
   "license": "ISC",
   "description": "",

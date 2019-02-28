@@ -65,6 +65,7 @@ MongoClient.connect('mongodb://paperfoldUser:ifj7hkWC@ds153763.mlab.com:53763/pa
   if (err) return console.log(err);
   db = client.db('paperfold');
   app.listen(PORT, '0.0.0.0');
+  console.log('Server running...');
 
 });
 
@@ -192,17 +193,6 @@ function chapterFormHandler (req, res, next) {
 
 function storyFormHandler (req, res, next) {
 
-  if (req.body.title === "") {
-    req.params = {
-      formIsInvalid: true
-    };
-    return next();
-  } else {
-    req.params = {
-      formIsInvalid: false
-    };
-  }
-
   let currentUser = req.query.user,
       newStoryId = 'default',
       newStoryChapters,
@@ -212,6 +202,7 @@ function storyFormHandler (req, res, next) {
     if(err) console.log(err);
     newStoryChapters = results;
     newStoryObj = Object.assign(req.body, {
+      "title": "Untitled",
       "progress": "0",
       "chapters": newStoryChapters
     });
@@ -229,8 +220,8 @@ function storyFormHandler (req, res, next) {
           }, {
             $push: {
               "contributions": {
-                "id": newStoryId,
-                "title": req.body.title
+                "id": result.insertedId.toString(),
+                "title": "Untitled"
               }
             }
           }, {
@@ -240,6 +231,7 @@ function storyFormHandler (req, res, next) {
               return next();
           }
         );
+
     });
 
   });
@@ -338,10 +330,36 @@ function storyCtrl (req, res) {
 
 }
 
+function deleteStory(req, res, next) {
+
+  console.log(req.params.id);
+
+  db.collection('stories').deleteOne({"_id": req.params.id});
+
+  db.collection('users').updateOne(
+      {
+        "username": "simon"
+      }, {
+        $pull: {
+          "contributions": {
+            id: `${req.params.id}`
+          }
+        }
+      },
+      function(err, result) {
+        if(err) console.log(err);
+        res.redirect('/dashboard');
+      }
+    );
+
+}
+
 // User Submissions
 app.post('/addChapterText', chapterFormHandler, destinationHandler);
 
 app.post('/addStory', storyFormHandler, tocCtrl);
+
+app.post('/deleteStory/:id', deleteStory);
 
 
 // Application Pages

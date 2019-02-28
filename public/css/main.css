@@ -7,12 +7,11 @@ html, body {
   margin: 0;
   padding: 0;
   background: #fff;
-  font-family: 'Work Sans', sans-serif;
-  font-size: 1.1rem;
-  line-height: 1.5em;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.5;
 }
 h1, h2 {
-  font-family: 'Fredoka One', cursive;
+  font-family: 'IM Fell DW Pica', serif;
   color: #666;
   letter-spacing: .1rem;
   margin-top: 0;
@@ -25,7 +24,7 @@ img {
   max-width: 100%;
 }
 a {
-  color: #0081FF;
+  color: #000;
 }
 
 ._padded {
@@ -36,16 +35,14 @@ a {
 }
 
 .app-header {
-  background: #000;
+  /* background: #f1f1f1; */
   display: flex;
   justify-content: space-between;
   width: 100%;
   padding: 1rem;
-  color: #fff;
   margin-bottom: 4rem;
 }
 .app-header a {
-  color: #fff;
 }
 .header-title {
   display: inline-block;
@@ -83,18 +80,36 @@ a {
 .button, button {
   display: inline-block;
   background: #000;
+  border: 2px solid #000;
   color: #fff;
-  padding: 1rem;
-  border: none;
+  padding: .6rem 1rem;
   outline: none;
   border-radius: 5px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-decoration: none;
-  font-family: 'Fredoka One', cursive;
+  transition: background-color .2s linear;
+}
+.button.-small {
+  font-size: .8rem;
+  padding: .2rem .6rem;
 }
 .button:hover, button:hover {
   background: #444;
+  border: 2px solid #444;
   cursor: pointer;
+}
+.button.-outline {
+  border: 2px solid #666;
+  background: transparent;
+  color: #666;
+}
+.button.-outline:hover {
+  color: #fff;
+  background: #444;
+}
+.button.-warning {
+  background: #DA2538;
+  color: #fff;
 }
 .button:disabled, button:disabled {
   background: #ccc;
@@ -136,4 +151,81 @@ input:focus {
 }
 .message a {
   margin-right: 2rem;
+}
+
+
+h1 {
+  text-align: center;
+}
+.help {
+  text-align: center;
+}
+.page {
+  padding: 2rem;
+}
+.add-section {
+  max-width: 350px;
+  margin: 0 auto;
+}
+.form-story {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 350px;
+}
+.form-story > * {
+  margin: 1rem 0;
+}
+.form-story .textinput {
+  padding: 1rem;
+}
+.form-story button {
+  background: #000;
+  color: #fff;
+  padding: 1rem;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  font-size: 1rem;
+}
+.form-story button:hover {
+  background: #444;
+  cursor: pointer;
+}
+
+.panel-collection {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: repeat(auto-fill, 200px);
+  margin-bottom: 3rem;
+  background: #fff url(https://www.toptal.com/designers/subtlepatterns/patterns/bgnoise_lg.png) repeat top left;
+  padding: 2rem;
+}
+.title {
+  padding: 2rem;
+  background: #fff;
+  min-height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.title {
+  text-align: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  color: #222;
+}
+.links {
+  font-size: .8rem;
+  margin-top: 15px;
+}
+
+.link-list {
+  display: flex;
+  align-items: center;
+}
+.link-list > .link {
+  margin: 0 1rem;
 }

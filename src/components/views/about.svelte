@@ -1,6 +1,6 @@
 <svelte:head>
   <title>Story</title>
-  <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=IM+Fell+DW+Pica" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
 </svelte:head>
 

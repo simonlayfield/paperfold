@@ -1,7 +1,7 @@
 <svelte:head>
   <title>Story</title>
-  <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Work+Sans" rel="stylesheet">
-  <link href="/css/main.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=IM+Fell+DW+Pica" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
 </svelte:head>
 
 <style>
@@ -37,6 +37,7 @@
   }
   .chapter {
     color: #999;
+    font-family: 'IM Fell DW Pica', serif;
   }
   .add-button {
     margin-top: 2rem;
@@ -53,10 +54,6 @@
 
 <div class="grey-row">
   <div class="container -slim">
-
-    <div class="container">
-      <h2>{$currentStoryData.title}</h2>
-    </div>
 
     {#each Object.entries($currentStoryData.chapters) as [object, chapter], index}
       <div class="two spread">
