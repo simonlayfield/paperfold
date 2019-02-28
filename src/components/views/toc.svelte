@@ -13,7 +13,7 @@
     font-weight: bold;
   }
 
-  .page, .illustration {
+  .page {
     padding: 2rem;
   }
   .page {

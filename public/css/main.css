@@ -42,8 +42,7 @@ a {
   padding: 1rem;
   margin-bottom: 4rem;
 }
-.app-header a {
-}
+
 .header-title {
   display: inline-block;
   margin-left: 2rem;
@@ -80,7 +79,6 @@ a {
 .button, button {
   display: inline-block;
   background: #000;
-  border: 2px solid #000;
   color: #fff;
   padding: .6rem 1rem;
   outline: none;
@@ -95,7 +93,6 @@ a {
 }
 .button:hover, button:hover {
   background: #444;
-  border: 2px solid #444;
   cursor: pointer;
 }
 .button.-outline {
@@ -203,6 +200,9 @@ h1 {
   background: #fff url(https://www.toptal.com/designers/subtlepatterns/patterns/bgnoise_lg.png) repeat top left;
   padding: 2rem;
 }
+.panel > .link-list {
+  margin-top: .5rem;
+}
 .title {
   padding: 2rem;
   background: #fff;
@@ -226,6 +226,16 @@ h1 {
   display: flex;
   align-items: center;
 }
-.link-list > .link {
-  margin: 0 1rem;
+.link-list > .link + .link {
+  margin-left: .5em;
+  margin-bottom: 0;
+}
+
+.bg {
+  background-color: #000;
+  color: fff;
+}
+.bg img {
+  filter: grayscale(1) invert(1);
+
 }

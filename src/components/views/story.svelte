@@ -66,19 +66,24 @@
 
     <h1>{$currentStoryData.title}</h1>
 
-    <div class="container -split">
-      {#each Object.entries($currentStoryData.chapters) as [object, story], index}
 
+      {#each Object.entries($currentStoryData.chapters) as [object, story], index}
         {#if index === 1}
-          <div class="story-image"><img src="/images/covers/{story.imageSrc}" alt=""><p></div>
-          <div class="story-text">{story.text}</div>
+          <div class="bg">
+            <div class="container -split">
+              <div class="story-image"><img src="/images/covers/{story.imageSrc}" alt=""><p></div>
+              <div class="story-text">{story.text}</div>
+            </div>
+          </div>
         {:else}
-          <div class="story-text">{story.text}</div>
-          <div class="story-image"><img src="/images/covers/{story.imageSrc}" alt=""><p></div>
+          <div class="container -split">
+            <div class="story-text">{story.text}</div>
+            <div class="story-image"><img src="/images/covers/{story.imageSrc}" alt=""><p></div>
+          </div>
         {/if}
 
       {/each}
-    </div>
+
   {:else}
 
   <div class="app-header">

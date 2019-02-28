@@ -54,10 +54,9 @@
         {#each Object.entries($currentUserData.contributions) as [object, story]}
           <div class="panel">
             <div class="title">{story.title}</div>
-            <div class="links">
-              <a class="button -small" href="/toc?id={story.id}">Edit</a>
-              <form action="/deleteStory/{story.id}" method="post"><button class="button -small -outline" type="submit">Delete</button></form></div>
-
+            <div class="link-list">
+              <a class="button -small link" href="/toc?id={story.id}">Edit</a>
+              <form class="link" action="/deleteStory/{story.id}" method="post"><button class="button -small -outline" type="submit">Delete</button></form></div>
           </div>
         {/each}
       </div>
