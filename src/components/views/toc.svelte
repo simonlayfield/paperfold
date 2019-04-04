@@ -45,7 +45,10 @@
 </style>
 
 <div class="app-header">
-  <div class="message"><a href="/dashboard">&lsaquo; Back to the void</a> | <span class="header-title">{$currentStoryData.title}</span></div>
+  <div class="message">
+    <a href="/dashboard">&lsaquo; Back to the void</a> <span class="divider">|</span>
+    <div id="textEditComponent"></div>
+  </div>
 </div>
 
   <div class="container">

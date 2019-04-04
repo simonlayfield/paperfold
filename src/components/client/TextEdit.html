@@ -1,0 +1,38 @@
+<div class="textEditValue {active ? '' : '-active'}">
+  <span class="value" id="{id}">{value}</span>
+  <button class="button -small" on:click=toggleActive()>Edit</button>
+</div>
+
+<form action="{action}" method="post" class="textEditForm {active ? '-active' : ''}">
+  <input class="value" type="text" bind:value="value">
+  <input class="button -small" type="submit" name="submit" value="Done">
+</form>
+
+<style>
+.textEditForm, .textEditValue {
+  display: none;
+}
+.textEditForm.-active, .textEditValue.-active {
+  display: inline-block;
+}
+.value {
+  margin-right: 1rem;
+}
+
+</style>
+
+<script>
+  export default {
+    data() {
+      return {
+        active: false
+      }
+    },
+    methods: {
+      toggleActive() {
+        const {active} =this.get();
+        this.set({active: !active});
+      }
+    }
+  }
+</script>

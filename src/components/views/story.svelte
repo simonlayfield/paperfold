@@ -61,7 +61,7 @@
   {#if $currentStoryData.progress === 3}
 
     <div class="app-header">
-      <div class="message"><a href="/dashboard">&lsaquo; Back to the void</a></div>
+      <div class="message"><a href="/dashboard">&lsaquo; Back to pictory</a></div>
     </div>
 
     <h1>{$currentStoryData.title}</h1>

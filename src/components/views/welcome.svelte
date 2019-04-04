@@ -7,7 +7,7 @@
 <div class="page">
 
   <div class="logo-section">
-    <img src="/images/logo-void.png" srcset="/images/logo-void@2x.png 2x" alt="">
+    <img src="/images/logo-pictory.jpg" srcset="/images/logo-pictory@2x.jpg 2x" alt="">
   </div>
 
 </div>
@@ -16,11 +16,10 @@
   <div class="content-section">
     <div class="grid">
       <div>
-        <h2>What madness is this?</h2>
-        <p>A picture tells a thousand words; that's too many.</p>
-        <p>The Void is a way of creating short stories from sunspenseful, abstract illustrations.</p>
+        <h2>What is pictory?</h2>
+        <p>Pictory is a way of creating short stories from sunspenseful, abstract illustrations.</p>
         <div class="cta">
-          <a href="/dashboard" class="button">Venture forth</a>
+          <a href="/dashboard" class="button">Get started</a>
         </div>
       </div>
     </div>

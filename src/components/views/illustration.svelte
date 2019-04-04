@@ -59,7 +59,7 @@
   </style>
 
 <div class="app-header">
-  <div class="message"><a href="/dashboard">&lsaquo; Back to the void</a></div>
+  <div class="message"><a href="/dashboard">&lsaquo; Back to pictory</a></div>
 </div>
 
 <div class="page">

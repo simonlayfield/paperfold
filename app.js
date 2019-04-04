@@ -254,9 +254,28 @@ function tocCtrl (req, res) {
     });
 
     res.set({ 'content-type': 'text/html; charset=utf-8' });
-    res.write(head);
-    res.write('<style>' + css.code + '</style>');
-    res.write(html);
+    res.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>${head}
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>${css.code}</style>
+      </head>
+      <body>${html}
+      <script src="js/TextEdit.js"></script>
+      <script>
+        var TextEditComponent = new TextEdit({
+          target: document.querySelector('#textEditComponent'),
+          data: {
+            action: '/editTitle',
+            id: 'thing',
+            value: 'thingthing'
+          }
+        });
+      </script>
+      </body>
+      </html>
+    `);
     res.end();
   });
 }

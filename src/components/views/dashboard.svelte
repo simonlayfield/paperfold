@@ -7,8 +7,8 @@
 
 <header class="app-header">
   <div class="message">Logged in as {$currentUserData.username}</div>
-  <div class="link-list">
-    <a class="link" href="/about">What is The Void?</a>
+  <div class="link-list -spaced">
+    <a class="link" href="/about">What is Pictory?</a>
     <a class="link button" href="/illustration">Submit an illustration</a>
   </div>
 </header>
@@ -41,7 +41,7 @@
 
     <div class="add-section">
       <form action="/addStory?user=simon" method="POST" class="form-story" autocomplete="off">
-        <button class="button -outline" type="submit">Start a new story</button>
+        <button class="button" type="submit">Start a new story</button>
       </form>
     </div>
 

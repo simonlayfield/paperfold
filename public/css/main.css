@@ -81,6 +81,7 @@ a {
   background: #000;
   color: #fff;
   padding: .6rem 1rem;
+  border: none;
   outline: none;
   border-radius: 5px;
   font-size: 1rem;
@@ -146,8 +147,10 @@ input:focus {
   outline: none;
   /* border: none; */
 }
-.message a {
+.divider {
+  display: inline-block;
   margin-right: 2rem;
+  margin-left: 2rem;
 }
 
 
@@ -230,6 +233,9 @@ h1 {
   margin-left: .5em;
   margin-bottom: 0;
 }
+.link-list.-spaced > .link + .link {
+  margin-left: 1.5em;
+}
 
 .bg {
   background-color: #000;
@@ -238,4 +244,8 @@ h1 {
 .bg img {
   filter: grayscale(1) invert(1);
 
+}
+
+#textEditComponent {
+  display: inline-block;
 }

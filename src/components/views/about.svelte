@@ -11,11 +11,11 @@
 <div class="page">
 
   <div class="add-section">
-    <h1>What is The Void?</h1>
+    <h1>What is Pictory?</h1>
     <p>Abstract images, by nature, are open to interpretation. Two different people may look at the same composition and see and connect with totally different aspects.</p>
-    <p><strong>The Void</strong> is an experiment that encourages public contributions to short stories, fueled by the mystery and suspense of purposefully composed abstract ink compositions.</p>
+    <p><strong>Pictory</strong> is an experiment that encourages public contributions to short stories, fueled by the mystery and suspense of purposefully composed abstract ink compositions.</p>
     <!-- <p>By challenging and exploring our imaginations we </p> -->
-    <p><a class="button" href="/dashboard">&lsaquo; Head back to the void</a></p>
+    <p><a class="button" href="/dashboard">&lsaquo; Head back to pictory</a></p>
   </div>
 
 </div>
