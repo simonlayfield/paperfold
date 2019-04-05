@@ -33,6 +33,10 @@ a {
 ._center {
   text-align: center;
 }
+._spaced {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
 
 .app-header {
   /* background: #f1f1f1; */

@@ -184,9 +184,7 @@ function chapterFormHandler (req, res, next) {
         }
       );
 
-
     }
-
 
   });
 }
@@ -195,44 +193,38 @@ function storyFormHandler (req, res, next) {
 
   let currentUser = req.query.user,
       newStoryId = 'default',
-      newStoryChapters,
       newStoryObj;
 
-  db.collection('chapters').aggregate([{ $sample: { size: 3 } }]).toArray(function(err, results) {
-    if(err) console.log(err);
-    newStoryChapters = results;
-    newStoryObj = Object.assign(req.body, {
-      "title": "Untitled",
-      "progress": "0",
-      "chapters": newStoryChapters
-    });
+  newStoryObj = Object.assign(req.body, {
+    "title": "Untitled",
+    "progress": "0",
+    "chapters": []
+  });
 
-    db.collection('stories').insertOne(newStoryObj, (err, result) => {
-      if (err) return console.log(err);
-      newStoryId = result.insertedId;
-      console.log('saved to database');
+  db.collection('stories').insertOne(newStoryObj, (err, result) => {
+    if (err) return console.log(err);
+    newStoryId = result.insertedId;
+    console.log('saved to database');
 
-      req.query.id = newStoryId;
+    req.query.id = newStoryId;
 
-      db.collection('users').updateOne(
-          {
-            "username": currentUser
-          }, {
-            $push: {
-              "contributions": {
-                "id": result.insertedId.toString(),
-                "title": "Untitled"
-              }
+    db.collection('users').updateOne(
+        {
+          "username": currentUser
+        }, {
+          $push: {
+            "contributions": {
+              "id": result.insertedId.toString(),
+              "title": "Untitled"
             }
-          }, {
-            upsert: true
-          },
-          function(err, result) {
-              return next();
           }
-        );
-
-    });
+        }, {
+          upsert: true
+        },
+        function(err, result) {
+            return next();
+        }
+      );
 
   });
 
@@ -263,6 +255,7 @@ function tocCtrl (req, res) {
       </head>
       <body>${html}
       <script src="js/TextEdit.js"></script>
+      <script src="js/ImageSelect.js"></script>
       <script>
         var TextEditComponent = new TextEdit({
           target: document.querySelector('#textEditComponent'),
@@ -270,6 +263,14 @@ function tocCtrl (req, res) {
             action: '/editTitle',
             id: 'thing',
             value: 'thingthing'
+          }
+        });
+      </script>
+      <script>
+        var ImageSelectComponent = new ImageSelect({
+          target: document.querySelector('#imageSelectComponent'),
+          data: {
+            storyId: "${currentStoryId}"
           }
         });
       </script>
@@ -351,8 +352,6 @@ function storyCtrl (req, res) {
 
 function deleteStory(req, res, next) {
 
-  console.log(req.params.id);
-
   db.collection('stories').deleteOne({"_id": req.params.id});
 
   db.collection('users').updateOne(
@@ -374,12 +373,38 @@ function deleteStory(req, res, next) {
 }
 
 // User Submissions
+
+app.post('/addChapter', (req, res) => {
+
+  let chapterId = new ObjectId(req.body.chapter),
+      storyId = new ObjectId(req.body.story);
+
+  db.collection('chapters').find({"_id": chapterId}).toArray((err, results) => {
+
+    results[0].confirmed = true;
+
+    db.collection('stories').updateOne(
+      {
+        "_id": storyId
+      }, {
+        $push: { "chapters": results[0] }
+      }, {
+        upsert: true
+      },
+      (err, result) => {
+        res.redirect(`/toc?id=${req.body.story}`);
+      }
+    );
+
+  });
+
+});
+
 app.post('/addChapterText', chapterFormHandler, destinationHandler);
 
 app.post('/addStory', storyFormHandler, tocCtrl);
 
 app.post('/deleteStory/:id', deleteStory);
-
 
 // Application Pages
 app.get(['/', '/index.html'], homeCtrl);
@@ -387,6 +412,16 @@ app.get(['/', '/index.html'], homeCtrl);
 app.get('/dashboard', dashboardCtrl);
 
 app.get('/toc', tocCtrl);
+
+app.get('/fetchChapters', (req, res) => {
+
+  db.collection('chapters').aggregate([{ $sample: { size: 1 } }]).toArray(function(err, results) {
+
+    res.send(results[0]);
+
+  });
+
+});
 
 app.get(['/story', 'story.html'], storyCtrl);
 app.get('/about', (req, res) => {

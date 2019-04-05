@@ -39,9 +39,7 @@
     color: #999;
     font-family: 'IM Fell DW Pica', serif;
   }
-  .add-button {
-    margin-top: 2rem;
-  }
+
 </style>
 
 <div class="app-header">
@@ -51,39 +49,60 @@
   </div>
 </div>
 
-  <div class="container">
-    <h1>Here's your story!</h1>
-  </div>
+<div class="container">
+  <h1>Here's your story!</h1>
+</div>
 
 <div class="grey-row">
   <div class="container -slim">
 
-    {#each Object.entries($currentStoryData.chapters) as [object, chapter], index}
-      <div class="two spread">
-        <div class="page">
-          <div class="chapter">Chapter {index+1}</div>
-          {#if index < $currentStoryData.progress}
-            <p>{$currentStoryData.chapters[index].text}</p>
-          {:elseif index === parseInt($currentStoryData.progress)}
-            <div class="add-button">
-              <a href="/story?id={$currentStoryData._id}" class="button">Write Chapter {index+1}</a>
-            </div>
-          {:else}
 
-          {/if}
-        </div>
-        <div class="illustration">
-          <div>
-            <img src="/images/covers/{chapter.imageSrc}" width="300px" alt="">
+
+    {#each Object.entries($currentStoryData.chapters) as [object, chapter], index}
+
+      {#if chapter.confirmed}
+
+        <div class="two spread">
+
+          <div class="page">
+
+            <div class="chapter">Chapter {index+1}</div>
+
+            {#if index < $currentStoryData.progress}
+
+              <p>{$currentStoryData.chapters[index].text}</p>
+
+            {:elseif index == parseInt($currentStoryData.progress)}
+
+              <div class="_spaced">
+                <a href="/story?id={$currentStoryData._id}" class="button">Write Chapter {index+1}</a>
+              </div>
+
+            {/if}
+
           </div>
+
+          <div class="illustration">
+            <div>
+              <img src="/images/covers/{chapter.imageSrc}" width="300px" alt="">
+              {#if index == parseInt($currentStoryData.progress)}
+                <div class="_spaced _center">
+                  <button class="button">Swap image</button>
+                </div>
+              {/if}
+            </div>
+          </div>
+
         </div>
-      </div>
+
+      {/if}
+
     {/each}
+
+    <div id="imageSelectComponent"></div>
 
   </div>
 </div>
-
-
 
 <script>
   export default {
@@ -92,5 +111,4 @@
       }
     }
   }
-
 </script>
