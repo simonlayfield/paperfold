@@ -85,11 +85,6 @@
           <div class="illustration">
             <div>
               <img src="/images/covers/{chapter.imageSrc}" width="300px" alt="">
-              {#if index == parseInt($currentStoryData.progress)}
-                <div class="_spaced _center">
-                  <button class="button">Swap image</button>
-                </div>
-              {/if}
             </div>
           </div>
 

@@ -1,5 +1,5 @@
 <svelte:head>
-  <title>Add an illustration to The Void</title>
+  <title>Add an illustration to Pictory</title>
   <link href="https://fonts.googleapis.com/css?family=IM+Fell+DW+Pica" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
 
@@ -63,7 +63,7 @@
 </div>
 
 <div class="page">
-  <h1>Forfeit your soul to The Void</h1>
+  <h1>Submit images to Pictory</h1>
   <p class="_center">Or just upload your work if you so wish.</p>
 
   <div class="add-section">
