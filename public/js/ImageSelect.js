@@ -28,8 +28,8 @@ var ImageSelect = (function() { "use strict";
 
 	function add_css() {
 		var style = createElement("style");
-		style.id = 'svelte-th17ym-style';
-		style.textContent = "#story.svelte-th17ym,#chapter.svelte-th17ym,.chapter-button.svelte-th17ym,.chapter-form.svelte-th17ym{display:none}.chapter-button.-active.svelte-th17ym,.chapter-form.-active.svelte-th17ym{display:block}";
+		style.id = 'svelte-1dp22j0-style';
+		style.textContent = "#story.svelte-1dp22j0,#chapter.svelte-1dp22j0,.chapter-button.svelte-1dp22j0,.chapter-form.svelte-1dp22j0{display:none}.chapter-button.-active.svelte-1dp22j0,.chapter-form.-active.svelte-1dp22j0{display:block}.chapter-form.svelte-1dp22j0 ._centered.svelte-1dp22j0{margin-top:2rem}.chapter-form.svelte-1dp22j0 ._centered>.svelte-1dp22j0{margin-left:1rem;margin-right:1rem}";
 		append(document.head, style);
 	}
 
@@ -47,7 +47,7 @@ var ImageSelect = (function() { "use strict";
 	}
 
 	function create_main_fragment(component, ctx) {
-		var div0, button, div0_class_value, text1, div1, p, text3, div1_class_value;
+		var div0, button, div0_class_value, text1, div2, div1, text3, div2_class_value;
 
 		function click_handler(event) {
 			component.activateForm();
@@ -67,9 +67,9 @@ var ImageSelect = (function() { "use strict";
 				button = createElement("button");
 				button.textContent = "Add a chapter";
 				text1 = createText("\n\n");
+				div2 = createElement("div");
 				div1 = createElement("div");
-				p = createElement("p");
-				p.textContent = "Choose an image!";
+				div1.textContent = "Choose an image";
 				text3 = createText("\n  ");
 
 				for (var i = 0; i < each_blocks.length; i += 1) {
@@ -77,26 +77,26 @@ var ImageSelect = (function() { "use strict";
 				}
 				addListener(button, "click", click_handler);
 				button.className = "button";
-				div0.className = div0_class_value = "chapter-button " + (ctx.formIsActive ? '' : '-active') + " svelte-th17ym";
-				p.className = "_center";
-				div1.className = div1_class_value = "chapter-form " + (ctx.formIsActive ? '-active' : '') + " svelte-th17ym";
+				div0.className = div0_class_value = "chapter-button " + (ctx.formIsActive ? '' : '-active') + " svelte-1dp22j0";
+				div1.className = "_center _spaced";
+				div2.className = div2_class_value = "chapter-form " + (ctx.formIsActive ? '-active' : '') + " svelte-1dp22j0";
 			},
 
 			m(target, anchor) {
 				insert(target, div0, anchor);
 				append(div0, button);
 				insert(target, text1, anchor);
-				insert(target, div1, anchor);
-				append(div1, p);
-				append(div1, text3);
+				insert(target, div2, anchor);
+				append(div2, div1);
+				append(div2, text3);
 
 				for (var i = 0; i < each_blocks.length; i += 1) {
-					each_blocks[i].m(div1, null);
+					each_blocks[i].m(div2, null);
 				}
 			},
 
 			p(changed, ctx) {
-				if ((changed.formIsActive) && div0_class_value !== (div0_class_value = "chapter-button " + (ctx.formIsActive ? '' : '-active') + " svelte-th17ym")) {
+				if ((changed.formIsActive) && div0_class_value !== (div0_class_value = "chapter-button " + (ctx.formIsActive ? '' : '-active') + " svelte-1dp22j0")) {
 					div0.className = div0_class_value;
 				}
 
@@ -111,7 +111,7 @@ var ImageSelect = (function() { "use strict";
 						} else {
 							each_blocks[i] = create_each_block(component, child_ctx);
 							each_blocks[i].c();
-							each_blocks[i].m(div1, null);
+							each_blocks[i].m(div2, null);
 						}
 					}
 
@@ -121,8 +121,8 @@ var ImageSelect = (function() { "use strict";
 					each_blocks.length = each_value.length;
 				}
 
-				if ((changed.formIsActive) && div1_class_value !== (div1_class_value = "chapter-form " + (ctx.formIsActive ? '-active' : '') + " svelte-th17ym")) {
-					div1.className = div1_class_value;
+				if ((changed.formIsActive) && div2_class_value !== (div2_class_value = "chapter-form " + (ctx.formIsActive ? '-active' : '') + " svelte-1dp22j0")) {
+					div2.className = div2_class_value;
 				}
 			},
 
@@ -134,7 +134,7 @@ var ImageSelect = (function() { "use strict";
 				removeListener(button, "click", click_handler);
 				if (detach) {
 					detachNode(text1);
-					detachNode(div1);
+					detachNode(div2);
 				}
 
 				destroyEach(each_blocks, detach);
@@ -144,21 +144,22 @@ var ImageSelect = (function() { "use strict";
 
 	// (8:2) {#each chapters as chapter, index}
 	function create_each_block(component, ctx) {
-		var div, img, img_src_value, text0, button, text2, form, input0, input0_value_value, text3, input1, text4, input2, text5;
+		var div0, img, img_src_value, text0, div1, button, text2, form, input0, input0_value_value, text3, input1, text4, input2, text5;
 
 		return {
 			c() {
-				div = createElement("div");
+				div0 = createElement("div");
 				img = createElement("img");
 				text0 = createText("\n    ");
+				div1 = createElement("div");
 				button = createElement("button");
 				button.textContent = "Swap image";
-				text2 = createText("\n    ");
+				text2 = createText("\n      ");
 				form = createElement("form");
 				input0 = createElement("input");
-				text3 = createText("\n      ");
+				text3 = createText("\n        ");
 				input1 = createElement("input");
-				text4 = createText("\n      ");
+				text4 = createText("\n        ");
 				input2 = createElement("input");
 				text5 = createText("\n    ");
 				img.src = img_src_value = "images/covers/" + ctx.chapter.imageSrc;
@@ -168,37 +169,40 @@ var ImageSelect = (function() { "use strict";
 				button._svelte = { component };
 
 				addListener(button, "click", click_handler);
-				button.className = "button";
+				button.className = "button -outline svelte-1dp22j0";
 				setAttribute(input0, "type", "text");
 				input0.name = "chapter";
 				input0.id = "chapter";
 				input0.value = input0_value_value = ctx.chapter._id;
-				input0.className = "svelte-th17ym";
+				input0.className = "svelte-1dp22j0";
 				setAttribute(input1, "type", "text");
 				input1.name = "story";
 				input1.id = "story";
 				input1.value = ctx.storyId;
-				input1.className = "svelte-th17ym";
+				input1.className = "svelte-1dp22j0";
 				setAttribute(input2, "type", "submit");
-				input2.className = "button -outline";
+				input2.className = "button";
 				input2.value = "Use this image";
 				form.action = "/addChapter";
 				form.method = "post";
+				form.className = "svelte-1dp22j0";
+				div1.className = "_centered svelte-1dp22j0";
 			},
 
 			m(target, anchor) {
-				insert(target, div, anchor);
-				append(div, img);
+				insert(target, div0, anchor);
+				append(div0, img);
 				insert(target, text0, anchor);
-				insert(target, button, anchor);
-				insert(target, text2, anchor);
-				insert(target, form, anchor);
+				insert(target, div1, anchor);
+				append(div1, button);
+				append(div1, text2);
+				append(div1, form);
 				append(form, input0);
 				append(form, text3);
 				append(form, input1);
 				append(form, text4);
 				append(form, input2);
-				append(form, text5);
+				append(div1, text5);
 			},
 
 			p(changed, ctx) {
@@ -217,16 +221,12 @@ var ImageSelect = (function() { "use strict";
 
 			d(detach) {
 				if (detach) {
-					detachNode(div);
+					detachNode(div0);
 					detachNode(text0);
-					detachNode(button);
+					detachNode(div1);
 				}
 
 				removeListener(button, "click", click_handler);
-				if (detach) {
-					detachNode(text2);
-					detachNode(form);
-				}
 			}
 		};
 	}
@@ -236,7 +236,7 @@ var ImageSelect = (function() { "use strict";
 		this._state = assign(data(), options.data);
 		this._intro = true;
 
-		if (!document.getElementById("svelte-th17ym-style")) add_css();
+		if (!document.getElementById("svelte-1dp22j0-style")) add_css();
 
 		this._fragment = create_main_fragment(this, this._state);
 

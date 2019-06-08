@@ -1,5 +1,5 @@
 <svelte:head>
-  <title>Story</title>
+  <title>Dashboard | Pictory</title>
   <link href="https://fonts.googleapis.com/css?family=IM+Fell+DW+Pica" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
 
@@ -50,26 +50,35 @@
   <div class="container story-data">
     {#if $currentUserData.contributions.length}
       <h3>Continue writing...</h3>
-      <div class="panel-collection">
-        {#each Object.entries($currentUserData.contributions) as [object, story]}
-          <div class="panel">
-            <div class="title">{story.title}</div>
-            <div class="link-list">
-              <a class="button -small link" href="/toc?id={story.id}">Edit</a>
-              <form class="link" action="/deleteStory/{story.id}" method="post"><button class="button -small -outline" type="submit">Delete</button></form></div>
-          </div>
-        {/each}
+      <div class="shelf">
+        <div class="panel-collection">
+          {#each Object.entries($currentUserData.contributions) as [object, story]}
+            <div class="panel">
+              <div class="cover-container">
+              <a class="cover" href="/story?id={story._id}">{story.title}</a>
+              </div>
+              <div class="link-list">
+                <a class="button -link" href="/toc?id={story.id}">Edit</a>
+                | <form class="link" action="/deleteStory/{story.id}" method="post"><button class="button -link" type="submit">Delete</button></form>
+              </div>
+            </div>
+          {/each}
+        </div>
       </div>
     {/if}
     {#if $currentUserData.complete.length}
-      <h3>Read previous stories</h3>
-      <div class="panel-collection">
-        {#each Object.entries($currentUserData.complete) as [object, story]}
-          <div class="panel">
-            <div class="title">{story.title}</div>
-            <div class="links"><a class="button -small" href="/story?id={story._id}">Read</a></div>
-          </div>
-        {/each}
+      <h3>Read completed stories</h3>
+      <div class="shelf">
+        <div class="panel-collection">
+          {#each Object.entries($currentUserData.complete) as [object, story]}
+            <div class="panel">
+              <div class="cover-container">
+                <a class="cover" href="/story?id={story._id}">{story.title}</a>
+              </div>
+              <div class="links"><a href="/story?id={story._id}">Read</a></div>
+            </div>
+          {/each}
+        </div>
       </div>
     {/if}
   </div>

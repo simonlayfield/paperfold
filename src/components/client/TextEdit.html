@@ -5,6 +5,7 @@
 
 <form action="{action}" method="post" class="textEditForm {active ? '-active' : ''}">
   <input class="value" type="text" bind:value="value">
+  <input hidden type="text" value="{id}">
   <input class="button -small" type="submit" name="submit" value="Done">
 </form>
 

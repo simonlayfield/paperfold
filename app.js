@@ -261,8 +261,8 @@ function tocCtrl (req, res) {
           target: document.querySelector('#textEditComponent'),
           data: {
             action: '/editTitle',
-            id: 'thing',
-            value: 'thingthing'
+            id: '${currentStoryId}',
+            value: 'Untitled'
           }
         });
       </script>

@@ -4,17 +4,19 @@
 </div>
 
 <div class="chapter-form {formIsActive ? '-active' : ''}">
-  <p class="_center">Choose an image!</p>
+  <div class="_center _spaced">Choose an image</div>
   {#each chapters as chapter, index}
     <div>
       <img src="images/covers/{chapter.imageSrc}" alt="" width="400">
     </div>
-    <button class="button" on:click=fetchChapters()>Swap image</button>
-    <form action="/addChapter" method="post">
-      <input type="text" name="chapter" id="chapter" value="{chapter._id}">
-      <input type="text" name="story" id="story" value="{storyId}">
-      <input type="submit" class="button -outline" value="Use this image">
-    </form>
+    <div class="_centered">
+      <button class="button -outline" on:click=fetchChapters()>Swap image</button>
+      <form action="/addChapter" method="post">
+        <input type="text" name="chapter" id="chapter" value="{chapter._id}">
+        <input type="text" name="story" id="story" value="{storyId}">
+        <input type="submit" class="button" value="Use this image">
+      </form>
+    </div>
   {/each}
 </div>
 
@@ -25,6 +27,13 @@
 
   .chapter-button.-active, .chapter-form.-active {
     display: block;
+  }
+  .chapter-form ._centered {
+    margin-top: 2rem;
+  }
+  .chapter-form ._centered > * {
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 
 </style>

@@ -1,5 +1,5 @@
 <svelte:head>
-  <title>Story</title>
+  <title>About | Pictory</title>
   <link href="https://fonts.googleapis.com/css?family=IM+Fell+DW+Pica" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
 </svelte:head>
@@ -29,10 +29,6 @@
   .add-section {
     max-width: 450px;
     margin: 0 auto;
-  }
-  .hero {
-    font-size: 8rem;
-    color: #ddd;
   }
 </style>
 

@@ -11,7 +11,7 @@
 <div class="page">
 
   <div class="add-section">
-    <h1>The Void thanks you.</h1>
+    <h1>Thanks for submitting to Pictory</h1>
     <p>May you find your worth in the waking world.</p>
     <p><a href="/dashboard">&lsaquo; Head back</a> to the void</p>
   </div>
@@ -25,12 +25,8 @@
     text-align: center;
   }
   .add-section {
-    max-width: 450px;
+    max-width: 500px;
     margin: 0 auto;
-  }
-  .hero {
-    font-size: 8rem;
-    color: #ddd;
   }
 </style>
 

@@ -6,17 +6,12 @@
 
 <style>
 
-  h1, h2 {
+  h1 {
     text-align: center;
-  }
-  h2 {
-    font-weight: bold;
   }
 
   .page {
     padding: 2rem;
-  }
-  .page {
     text-align: center;
   }
   .illustration {
@@ -25,17 +20,9 @@
     justify-content: center;
     align-items: center;
   }
-  .caption {
-    text-align: center;
-    padding-top: 1rem;
-    font-size: .9rem;
-    font-style: italic;
-  }
-  .chapter, .title {
+  .chapter {
     font-weight: bold;
     padding-top: 1rem;
-  }
-  .chapter {
     color: #999;
     font-family: 'IM Fell DW Pica', serif;
   }
@@ -55,8 +42,6 @@
 
 <div class="grey-row">
   <div class="container -slim">
-
-
 
     {#each Object.entries($currentStoryData.chapters) as [object, chapter], index}
 
@@ -94,7 +79,9 @@
 
     {/each}
 
-    <div id="imageSelectComponent"></div>
+    <div class="_centered">
+      <div id="imageSelectComponent"></div>
+    </div>
 
   </div>
 </div>

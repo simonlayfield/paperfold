@@ -22,7 +22,7 @@ var TextEdit = (function() { "use strict";
 	}
 
 	function create_main_fragment(component, ctx) {
-		var div, span, text0, text1, button, div_class_value, text3, form, input0, input0_updating = false, text4, input1, form_class_value;
+		var div, span, text0, text1, button, div_class_value, text3, form, input0, input0_updating = false, text4, input1, text5, input2, form_class_value;
 
 		function click_handler(event) {
 			component.toggleActive();
@@ -47,6 +47,8 @@ var TextEdit = (function() { "use strict";
 				input0 = createElement("input");
 				text4 = createText("\n  ");
 				input1 = createElement("input");
+				text5 = createText("\n  ");
+				input2 = createElement("input");
 				span.className = "value svelte-zlu2yu";
 				span.id = ctx.id;
 				addListener(button, "click", click_handler);
@@ -55,10 +57,13 @@ var TextEdit = (function() { "use strict";
 				addListener(input0, "input", input0_input_handler);
 				input0.className = "value svelte-zlu2yu";
 				setAttribute(input0, "type", "text");
-				input1.className = "button -small";
-				setAttribute(input1, "type", "submit");
-				input1.name = "submit";
-				input1.value = "Done";
+				input1.hidden = true;
+				setAttribute(input1, "type", "text");
+				input1.value = ctx.id;
+				input2.className = "button -small";
+				setAttribute(input2, "type", "submit");
+				input2.name = "submit";
+				input2.value = "Done";
 				form.action = ctx.action;
 				form.method = "post";
 				form.className = form_class_value = "textEditForm " + (ctx.active ? '-active' : '') + " svelte-zlu2yu";
@@ -78,6 +83,8 @@ var TextEdit = (function() { "use strict";
 
 				append(form, text4);
 				append(form, input1);
+				append(form, text5);
+				append(form, input2);
 			},
 
 			p(changed, ctx) {
@@ -94,6 +101,10 @@ var TextEdit = (function() { "use strict";
 				}
 
 				if (!input0_updating && changed.value) input0.value = ctx.value;
+				if (changed.id) {
+					input1.value = ctx.id;
+				}
+
 				if (changed.action) {
 					form.action = ctx.action;
 				}

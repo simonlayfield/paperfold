@@ -13,7 +13,6 @@
 </div>
 
 <div class="blue-row">
-  <div class="content-section">
     <div class="grid">
       <div>
         <h2>What is pictory?</h2>
@@ -23,7 +22,6 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 
 <style>
@@ -36,35 +34,20 @@
     margin-top: 2rem;
   }
 
-  .add-section, .content-section {
-    margin: 4rem auto;
-  }
-  .add-section {
-    max-width: 350px;
-    margin: 3rem auto;
-  }
   .content-section {
     max-width: 800px;
   }
   .logo-section {
     margin: 0 auto;
   }
-  .hero {
-    font-size: 8rem;
-    color: #ddd;
-  }
   .grid {
     display: flex;
     justify-content: center;
-    margin-top: 5rem;
+    margin-top: 3rem;
     margin-bottom: 3rem;
   }
-  grid.-padded > * {
-    margin-left: 2rem;
-    margin-right: 2rem;
-  }
   .grid > * {
-    width: 50%;
+    max-width: 400px;
     text-align: center;
   }
 </style>

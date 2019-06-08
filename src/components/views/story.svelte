@@ -6,7 +6,7 @@
 
 <style>
 
-  h1, h2 {
+  h1 {
     text-align: center;
   }
   #storyField {
@@ -52,7 +52,7 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
-  .edit, .edit h1, .edit h2 {
+  .edit {
     font-family: 'IBM Plex Mono', monospace;
   }
 
