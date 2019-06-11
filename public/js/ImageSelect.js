@@ -69,7 +69,7 @@ var ImageSelect = (function() { "use strict";
 				text1 = createText("\n\n");
 				div2 = createElement("div");
 				div1 = createElement("div");
-				div1.textContent = "Choose an image";
+				div1.textContent = "Choose a chapter image";
 				text3 = createText("\n  ");
 
 				for (var i = 0; i < each_blocks.length; i += 1) {

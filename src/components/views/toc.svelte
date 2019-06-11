@@ -37,7 +37,11 @@
 </div>
 
 <div class="container">
-  <h1>Here's your story!</h1>
+  {#if $currentStoryData.chapters == 0}
+    <h1>Let's add some chapters...</h1>
+  {:else}
+      <h1>Here's your story!</h1>
+  {/if}
 </div>
 
 <div class="grey-row">

@@ -1,5 +1,5 @@
 <svelte:head>
-  <title>Story</title>
+  <title>{$currentStoryData.title} | A Pictory Story</title>
   <link href="https://fonts.googleapis.com/css?family=IM+Fell+DW+Pica" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
 </svelte:head>
@@ -8,6 +8,10 @@
 
   h1 {
     text-align: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background: #000;
+    color: #fff;
   }
   #storyField {
     width: 100%;
@@ -20,7 +24,7 @@
     resize: none;
   }
   .container {
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -48,9 +52,12 @@
     border: 1px solid #ddd;
     padding: 2rem;
   }
+  .story-image img {
+    display: block;
+  }
   .story-image, .story-text {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    /* margin-top: 2rem;
+    margin-bottom: 2rem; */
   }
   .edit {
     font-family: 'IBM Plex Mono', monospace;
@@ -70,15 +77,15 @@
       {#each Object.entries($currentStoryData.chapters) as [object, story], index}
         {#if index === 1}
           <div class="bg">
-            <div class="container -split">
-              <div class="story-image"><img src="/images/covers/{story.imageSrc}" alt=""><p></div>
+            <div class="container -slim -split">
+              <div class="story-image"><img src="/images/covers/{story.imageSrc}" alt=""></div>
               <div class="story-text">{story.text}</div>
             </div>
           </div>
         {:else}
-          <div class="container -split">
+          <div class="container -slim -split">
             <div class="story-text">{story.text}</div>
-            <div class="story-image"><img src="/images/covers/{story.imageSrc}" alt=""><p></div>
+            <div class="story-image"><img src="/images/covers/{story.imageSrc}" alt=""></div>
           </div>
         {/if}
 
