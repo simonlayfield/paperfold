@@ -73,7 +73,6 @@
 
     <h1>{$currentStoryData.title}</h1>
 
-
       {#each Object.entries($currentStoryData.chapters) as [object, story], index}
         {#if index === 1}
           <div class="bg">
@@ -117,7 +116,7 @@
               placeholder="but..."></textarea>
           {:else}
             <textarea autofocus rows="4" cols="50" name="storyField" id="storyField"
-              placeholder="and then..."></textarea>
+              placeholder="..."></textarea>
           {/if}
 
         <p id="characterLimit">
@@ -143,8 +142,6 @@
   </div>
 
   {/if}
-
-
 
 <script>
   export default {

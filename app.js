@@ -2,6 +2,9 @@ const path = require('path'),
       express = require('express'),
       bodyParser = require('body-parser'),
       multer = require("multer"),
+      db = require("./db"),
+      stories = require("./models/stories"),
+      story = require("./models/story"),
       app = express();
 
 app.use(express.static('public'));
@@ -56,25 +59,14 @@ const { Store } = require('svelte/store.umd.js'),
       completeView = require('./src/components/views/complete.svelte'),
       ObjectId = require('mongodb').ObjectId;
 
-let db;
 const PORT = process.env.PORT || 8080;
-
-const MongoClient = require('mongodb').MongoClient;
-MongoClient.connect('mongodb://paperfoldUser:ifj7hkWC@ds153763.mlab.com:53763/paperfold', (err, client) => {
-
-  if (err) return console.log(err);
-  db = client.db('paperfold');
-  app.listen(PORT, '0.0.0.0');
-  console.log('Server running...');
-
-});
 
 // Data endpoints - will leave these here for now in case they come in handy
 
 app.get('/userData', (req, res) => {
   let currentUser = req.query.user;
 
-  db.collection('users').find({
+  db.get().collection('users').find({
     "username": currentUser
   }).toArray(function(err, results) {
     res.send(results[0]);
@@ -85,7 +77,7 @@ app.get('/userData', (req, res) => {
 // TODO May need to remove this or change it to a separate function
 app.get('/storyData', (req, res) => {
   let storyId = req.query.id;
-  db.collection('stories').find({
+  db.get().collection('stories').find({
     "_id": storyId
   }).toArray(function(err, results) {
     res.send(results[0]);
@@ -103,7 +95,7 @@ app.post('/upload', (req, res) => {
       "imageSrc": req.file.filename
     };
 
-    db.collection('chapters').insertOne(newChapterObj, (err, result) => {
+    db.get().collection('chapters').insertOne(newChapterObj, (err, result) => {
       if (err) return console.log(err);
       res.redirect('/complete');
     });
@@ -136,7 +128,7 @@ function chapterFormHandler (req, res, next) {
       currentStoryData,
       currentProgress = req.body.storyProgress;
 
-  db.collection('stories').find({"_id": currentStoryId}).toArray(function(err, results) {
+  db.get().collection('stories').find({"_id": currentStoryId}).toArray(function(err, results) {
     currentStoryData = results[0];
 
     currentStoryData.progress = parseInt(req.body.storyProgress) + 1;
@@ -147,7 +139,7 @@ function chapterFormHandler (req, res, next) {
 
     if(currentStoryData.progress < 3) {
 
-      db.collection('stories').updateOne({
+      db.get().collection('stories').updateOne({
         "_id": currentStoryId
       },{
         $set: currentStoryData
@@ -162,14 +154,14 @@ function chapterFormHandler (req, res, next) {
         "complete": true
       });
 
-      db.collection('stories').updateOne({
+      db.get().collection('stories').updateOne({
         "_id": currentStoryId
       }, {
         $set: newChapterObj
       },
         function(err, result) {
 
-          db.collection('users').updateMany({
+          db.get().collection('users').updateMany({
               "username": "simon"
             }, {
               $pull: { "contributions": { "title": currentStoryTitle }},
@@ -197,18 +189,19 @@ function storyFormHandler (req, res, next) {
 
   newStoryObj = Object.assign(req.body, {
     "title": "Untitled",
+    "author": req.query.user,
     "progress": "0",
     "chapters": []
   });
 
-  db.collection('stories').insertOne(newStoryObj, (err, result) => {
+  db.get().collection('stories').insertOne(newStoryObj, (err, result) => {
     if (err) return console.log(err);
     newStoryId = result.insertedId;
     console.log('saved to database');
 
     req.query.id = newStoryId;
 
-    db.collection('users').updateOne(
+    db.get().collection('users').updateOne(
         {
           "username": currentUser
         }, {
@@ -234,7 +227,7 @@ function tocCtrl (req, res) {
 
   const currentStoryId = new ObjectId(req.query.id);
 
-  db.collection('stories').find({
+  db.get().collection('stories').find({
     "_id": currentStoryId
   }).toArray(function(err, results) {
     if (err) return console.log(err);
@@ -262,7 +255,7 @@ function tocCtrl (req, res) {
           data: {
             action: '/editTitle',
             id: '${currentStoryId}',
-            value: 'Untitled'
+            value: '${results[0].title}'
           }
         });
       </script>
@@ -292,15 +285,19 @@ function homeCtrl (req, res) {
 
 function dashboardCtrl (req, res) {
 
-  db.collection('users').find({
-    "username": "simon"
-  }).toArray(function(err, results) {
+  stories.getStoriesByAuthor((results) => {
 
-    if (err) return console.log(err);
+    const completeStories = results.filter((story) => {
+      return story.complete;
+    });
+    const incompleteStories = results.filter((story) => {
+      return !story.complete;
+    });
 
     const { html, head, css } = dashboardView.render(null, {
       store: new Store({
-        currentUserData: results[0],
+        completeStories: completeStories,
+        incompleteStories: incompleteStories,
         formIsInvalid: req.params.formIsInvalid
       })
     });
@@ -318,7 +315,7 @@ function storyCtrl (req, res) {
 
   const currentStoryId = new ObjectId(req.query.id);
 
-  db.collection('stories').find({
+  db.get().collection('stories').find({
     "_id": currentStoryId
   }).toArray(function(err, results) {
     if (err) return console.log(err);
@@ -350,28 +347,6 @@ function storyCtrl (req, res) {
 
 }
 
-function deleteStory(req, res, next) {
-
-  db.collection('stories').deleteOne({"_id": req.params.id});
-
-  db.collection('users').updateOne(
-      {
-        "username": "simon"
-      }, {
-        $pull: {
-          "contributions": {
-            id: `${req.params.id}`
-          }
-        }
-      },
-      function(err, result) {
-        if(err) console.log(err);
-        res.redirect('/dashboard');
-      }
-    );
-
-}
-
 // User Submissions
 
 app.post('/addChapter', (req, res) => {
@@ -379,11 +354,11 @@ app.post('/addChapter', (req, res) => {
   let chapterId = new ObjectId(req.body.chapter),
       storyId = new ObjectId(req.body.story);
 
-  db.collection('chapters').find({"_id": chapterId}).toArray((err, results) => {
+  db.get().collection('chapters').find({"_id": chapterId}).toArray((err, results) => {
 
     results[0].confirmed = true;
 
-    db.collection('stories').updateOne(
+    db.get().collection('stories').updateOne(
       {
         "_id": storyId
       }, {
@@ -404,7 +379,17 @@ app.post('/addChapterText', chapterFormHandler, destinationHandler);
 
 app.post('/addStory', storyFormHandler, tocCtrl);
 
-app.post('/deleteStory/:id', deleteStory);
+app.post('/deleteStory/:id', (req, res) => {
+  story.deleteStory(req, () => {
+    res.redirect('/dashboard');
+  });
+});
+
+app.post('/editTitle', (req, res) => {
+  story.updateStoryTitle(req, () => {
+    res.redirect(`/toc?id=${req.body.storyId}`);
+  });
+});
 
 // Application Pages
 app.get(['/', '/index.html'], homeCtrl);
@@ -415,7 +400,7 @@ app.get('/toc', tocCtrl);
 
 app.get('/fetchChapters', (req, res) => {
 
-  db.collection('chapters').aggregate([{ $sample: { size: 1 } }]).toArray(function(err, results) {
+  db.get().collection('chapters').aggregate([{ $sample: { size: 1 } }]).toArray(function(err, results) {
 
     res.send(results[0]);
 
@@ -450,4 +435,15 @@ app.get('/complete', (req, res) => {
   res.write('<style>' + css.code + '</style>');
   res.write(html);
   res.end();
+});
+
+db.connect("mongodb://paperfoldUser:ifj7hkWC@ds153763.mlab.com:53763/paperfold", (err) => {
+  if (err) {
+    console.log('Unable to connect to Mongo.')
+    process.exit(1)
+  } else {
+    app.listen(PORT, () => {
+      console.log('Listening on port 8080...')
+    })
+  }
 });

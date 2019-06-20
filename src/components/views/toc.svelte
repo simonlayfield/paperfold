@@ -31,7 +31,7 @@
 
 <div class="app-header">
   <div class="message">
-    <a href="/dashboard">&lsaquo; Back to the void</a> <span class="divider">|</span>
+    <a href="/dashboard">&lsaquo; Back to pictory</a> <span class="divider">|</span>
     <div id="textEditComponent"></div>
   </div>
 </div>
