@@ -5,15 +5,15 @@
 
 </svelte:head>
 
-<header class="app-header">
+<div class="page -dashboard">
+
+<header class="app-header container">
   <div class="message">Logged in as simon</div>
   <div class="link-list -spaced">
     <a class="link" href="/about">What is Pictory?</a>
     <a class="link button" href="/illustration">Submit an illustration</a>
   </div>
 </header>
-
-<div class="page">
 
   {#if !$completeStories.length && !$incompleteStories.length}
     <div class="grey-row">

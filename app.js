@@ -437,6 +437,28 @@ app.get('/complete', (req, res) => {
   res.end();
 });
 
+app.get('/vultureend1', (req, res) => {
+  res.redirect('/vulture/vulture-web.pdf#page=2');
+  res.end();
+});
+
+app.get('/vultureend2', (req, res) => {
+  res.redirect('/vulture/vulture-web.pdf#page=8');
+  res.end();
+});
+
+app.get('/vultureend3', (req, res) => {
+  res.redirect('/vulture/vulture-web.pdf#page=14');
+  res.end();
+});
+
+app.get('/vulture', (req, res) => {
+  var data = require('fs').readFileSync('public/vulture/vulture.pdf');
+  console.log(data);
+  res.contentType("application/pdf");
+  res.send(data);
+});
+
 db.connect("mongodb://paperfoldUser:ifj7hkWC@ds153763.mlab.com:53763/paperfold", (err) => {
   if (err) {
     console.log('Unable to connect to Mongo.')

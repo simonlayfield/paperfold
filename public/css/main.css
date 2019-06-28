@@ -183,6 +183,11 @@ h1 {
 .page {
   padding: 2rem;
 }
+.page.-dashboard {
+  /* background:transparent url('../images/header-ink.jpg') no-repeat 0 0; */
+  background-size: contain;
+
+}
 .add-section {
   max-width: 350px;
   margin: 0 auto;
@@ -220,6 +225,7 @@ h1 {
   grid-template-columns: repeat(auto-fill, 200px);
   padding-left: 2rem;
   padding-right: 2rem;
+  justify-content: center;
 }
 .panel > .link-list {
   margin-top: .5rem;
