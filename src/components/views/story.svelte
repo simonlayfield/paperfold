@@ -46,6 +46,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'IM Fell DW Pica', serif;
   }
 
   .illustration, .edit {
