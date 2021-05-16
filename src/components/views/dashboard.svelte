@@ -21,7 +21,7 @@
       <div class="add-section">
 
         <div>
-          <h2 style="text-align: center;">Commit to the Void</h2>
+          <h2 style="text-align: center;">Add a Story</h2>
           <p>First things first, let's add a Story Title and generate some chapters.</p>
 
           <form action="/addStory?user=simon" method="POST" class="form-story" autocomplete="off">

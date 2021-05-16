@@ -10,7 +10,7 @@ exports.connect = (url, done) => {
   if (state.db) return done();
 
   MongoClient.connect(url, { useNewUrlParser: true }).then((client) => {
-    state.db = client.db('paperfold');
+    state.db = client.db('pictory');
     done();
   }).catch((err) => {
     console.log(err);

@@ -94,7 +94,7 @@
   {:else}
 
   <div class="app-header">
-    <div class="message"><a href="/dashboard">&lsaquo; Back to the void</a> | <span class="header-title">{$currentStoryData.title}</span></div>
+    <div class="message"><a href="/dashboard">&lsaquo; Back to Pictory</a> | <span class="header-title">{$currentStoryData.title}</span></div>
   </div>
 
   <div class="container -split">

@@ -59,7 +59,7 @@ const { Store } = require('svelte/store.umd.js'),
       completeView = require('./src/components/views/complete.svelte'),
       ObjectId = require('mongodb').ObjectId;
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
 // Data endpoints - will leave these here for now in case they come in handy
 
@@ -132,7 +132,6 @@ function chapterFormHandler (req, res, next) {
     currentStoryData = results[0];
 
     currentStoryData.progress = parseInt(req.body.storyProgress) + 1;
-    console.log('progress is ' + currentStoryData.progress);
     currentStoryData.chapters[currentProgress].text = req.body.storyField;
 
     const currentStoryTitle = currentStoryData.title;
@@ -394,6 +393,7 @@ app.post('/editTitle', (req, res) => {
 // Application Pages
 app.get(['/', '/index.html'], homeCtrl);
 
+
 app.get('/dashboard', dashboardCtrl);
 
 app.get('/toc', tocCtrl);
@@ -401,9 +401,7 @@ app.get('/toc', tocCtrl);
 app.get('/fetchChapters', (req, res) => {
 
   db.get().collection('chapters').aggregate([{ $sample: { size: 1 } }]).toArray(function(err, results) {
-
     res.send(results[0]);
-
   });
 
 });
@@ -458,13 +456,13 @@ app.get('/vulture', (req, res) => {
   res.end(data);
 });
 
-db.connect("mongodb://paperfoldUser:ifj7hkWC@ds153763.mlab.com:53763/paperfold", (err) => {
+db.connect("mongodb+srv://pictoryApp:v6T8bW9Y3hFidJA@cluster0.hmjde.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", (err) => {
   if (err) {
     console.log('Unable to connect to Mongo.')
     process.exit(1)
   } else {
     app.listen(PORT, () => {
-      console.log('Listening on port 8080...')
+      console.log('Listening on port 3000...')
     })
   }
 });

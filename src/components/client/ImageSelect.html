@@ -1,31 +1,36 @@
-
 <div class="chapter-button {formIsActive ? '' : '-active'}">
-  <button class="button" on:click=activateForm()>Add a chapter</button>
+  <button class="button" on:click="activateForm()">Add a chapter</button>
 </div>
 
 <div class="chapter-form {formIsActive ? '-active' : ''}">
   <div class="_center _spaced">Choose a chapter image</div>
   {#each chapters as chapter, index}
-    <div>
-      <img src="images/covers/{chapter.imageSrc}" alt="" width="400">
-    </div>
-    <div class="_centered">
-      <button class="button -outline" on:click=fetchChapters()>Swap image</button>
-      <form action="/addChapter" method="post">
-        <input type="text" name="chapter" id="chapter" value="{chapter._id}">
-        <input type="text" name="story" id="story" value="{storyId}">
-        <input type="submit" class="button" value="Use this image">
-      </form>
-    </div>
+  <div>
+    <img src="images/covers/{chapter.imageSrc}" alt="" width="400" />
+  </div>
+  <div class="_centered">
+    <button class="button -outline" on:click="fetchChapters()">
+      Swap image
+    </button>
+    <form action="/addChapter" method="post">
+      <input type="text" name="chapter" id="chapter" value="{chapter._id}" />
+      <input type="text" name="story" id="story" value="{storyId}" />
+      <input type="submit" class="button" value="Use this image" />
+    </form>
+  </div>
   {/each}
 </div>
 
 <style>
-  #story, #chapter, .chapter-button, .chapter-form  {
+  #story,
+  #chapter,
+  .chapter-button,
+  .chapter-form {
     display: none;
   }
 
-  .chapter-button.-active, .chapter-form.-active {
+  .chapter-button.-active,
+  .chapter-form.-active {
     display: block;
   }
   .chapter-form ._centered {
@@ -35,32 +40,31 @@
     margin-left: 1rem;
     margin-right: 1rem;
   }
-
 </style>
 
 <script>
   export default {
     data() {
       return {
-        chapters: []
-      }
+        chapters: [],
+      };
     },
     oncreate() {
       this.fetchChapters();
     },
     methods: {
       fetchChapters() {
-        return fetch('/fetchChapters')
-        .then(res => res.json())
-				.then((data) => {
-          let chapterArr = [];
-          chapterArr.push(data);
-          this.set({chapters: chapterArr})
-        })
+        return fetch("/fetchChapters")
+          .then((res) => res.json())
+          .then((data) => {
+            let chapterArr = [];
+            chapterArr.push(data);
+            this.set({ chapters: chapterArr });
+          });
       },
       activateForm() {
-        this.set({formIsActive: true});
-      }
-    }
-  }
+        this.set({ formIsActive: true });
+      },
+    },
+  };
 </script>

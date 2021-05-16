@@ -33,7 +33,9 @@
   "nodemonConfig": {
     "restartable": "rs",
     "ext": "js,svelte,html",
-    "watch": ["./src"]
+    "watch": [
+      "./src"
+    ]
   },
   "author": "",
   "license": "ISC",
